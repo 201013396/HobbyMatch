@@ -1,0 +1,4218 @@
+/* =========================================================
+   HOBBYMATCH · Hoja de estilos
+   Orden del archivo:
+   1. Variables (colores y tipografía de Figma)
+   2. Base (reset y estilos generales)
+   3. Navegación entre pantallas
+   4. Componentes reutilizables (botones, campos, chips...)
+   5. Pantallas (bienvenida, formularios, onboarding, inicio)
+   6. Responsive (tablet y escritorio)
+   ========================================================= */
+
+
+/* ---------- 1. VARIABLES ----------
+   Los nombres siguen las variables de tu Figma.
+   Si cambias un color aquí, cambia en toda la app. */
+:root {
+  /* Colores base */
+  --amarillo-100: #FFFDE8;
+  --amarillo-300: #FAF9C8;
+  --amarillo-500: #F5F0A1;
+  --amarillo-700: #D5CA63;
+  --amarillo-900: #8A7E28;
+
+  --turquesa-100: #E2FCFD;
+  --turquesa-300: #A2F4F7;
+  --turquesa-500: #42ECF1;
+  --turquesa-700: #16B7BF;
+  --turquesa-900: #086C75;
+
+  --azul-100: #E8EFFF;
+  --azul-300: #A7BDF5;
+  --azul-500: #4874DE;
+  --azul-700: #2C50A7;
+  --azul-900: #172B63;
+
+  --blanco: #FFFFFF;
+  --negro: #000000;
+
+  /* Colores de apoyo */
+  --gris-100: #F6F8FC;
+  --gris-300: #CED5E1;
+  --gris-500: #8290A6;
+  --gris-700: #3B4860;
+  --gris-900: #151F36;
+
+  /* Categorías (300 claro · 500 base · 700 oscuro) */
+  --deportes-300: #A2F3CE;    --deportes-500: #76CBA4;    --deportes-700: #55997A;
+  --videojuegos-300: #C4BEF5; --videojuegos-500: #A9A0F5; --videojuegos-700: #897FD6;
+  --gastronomia-300: #F7C8AC; --gastronomia-500: #F5AE84; --gastronomia-700: #BE7C56;
+  --arte-300: #F7E9B6;        --arte-500: #F2D879;        --arte-700: #B7A04D;
+  --musica-300: #F1C1D6;      --musica-500: #F0A1C3;      --musica-700: #CA5C8B;
+  --cine-300: #A9CEEE;        --cine-500: #82BCEF;        --cine-700: #4B8BC3;
+  --juegos-300: #D6A8F3;      --juegos-500: #C680F3;      --juegos-700: #954FC2;
+  --viajes-300: #C9EFB4;      --viajes-500: #A5D68B;      --viajes-700: #71A953;
+  --cultura-300: #F1E5CE;     --cultura-500: #C8BDA7;     --cultura-700: #AC9870;
+  --animales-300: #EEDCC8;    --animales-500: #D9B38C;    --animales-700: #A07850;
+  --moda-300: #F8BDB5;        --moda-500: #F2877A;        --moda-700: #C0564A;
+
+  /* Estados */
+  --error: #C62828;
+
+  /* Rojo de los frutos del madroño (emoticono de nivel Avanzado) */
+  --madrono: #E5484D;
+
+  /* Color del oso de la portada: cámbialo por cualquier variable de arriba */
+  --color-oso: var(--cultura-500);
+
+  /* Tipografía */
+  --fuente: "Manrope", system-ui, sans-serif;
+  --fuente-manuscrita: "Mansalva", cursive;
+
+  /* Medidas que se repiten */
+  --radio-pildora: 999px;
+  --radio-tarjeta: 20px;
+  --margen: 25px;
+  --sombra-suave: 0 -4px 16px rgba(21, 31, 54, 0.08);
+}
+
+
+/* ---------- 2. BASE ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--gris-900);
+  background: var(--gris-100);
+}
+
+h1, h2, h3, h4, p, ul, ol, fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+fieldset {
+  border: 0;
+  min-width: 0;
+}
+
+img,
+svg {
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+/* El "almacén" de iconos no se ve */
+.sprite {
+  display: none;
+}
+
+/* Texto solo para lectores de pantalla (accesibilidad) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Contorno visible al navegar con teclado */
+:focus-visible {
+  outline: 3px solid var(--azul-500);
+  outline-offset: 3px;
+}
+
+
+/* ---------- 3. NAVEGACIÓN ENTRE PANTALLAS ----------
+   Todas las pantallas están ocultas.
+   Se muestra la que coincide con el # de la URL (:target).
+   Si no hay ninguna, se muestra la bienvenida. */
+.pantalla {
+  display: none;
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--blanco);
+}
+
+.pantalla:target,
+.app:not(:has(.pantalla:target)) #bienvenida {
+  display: block;
+}
+
+/* Contenedor central con márgenes laterales */
+.contenedor {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 0 var(--margen);
+}
+
+
+/* ---------- 4. COMPONENTES ---------- */
+
+/* Formas decorativas (no se pueden pulsar) */
+.forma {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ===== Emoticonos propios =====
+   Son los dibujos del sprite (#e-barrio, #e-deportes...). Por defecto miden
+   un poco más que el texto que los acompaña (1.6em) y se alinean con él. */
+.emoticono {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.6em;
+  height: 1.6em;
+  margin-right: 0.3em;
+  vertical-align: -0.5em;
+}
+
+/* Nivel (formulario y detalle): el emoticono va encima de la palabra,
+   así cabe en los botones estrechos del móvil */
+#opciones-nivel label,
+#detalle-nivel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+#detalle-nivel {
+  align-items: flex-start;
+}
+
+#opciones-nivel .emoticono,
+#detalle-nivel .emoticono {
+  width: 26px;
+  height: 26px;
+  margin: 0;
+}
+
+/* Dentro de una fila flex ya hay hueco (gap): quitamos el margen */
+.con-emoticonos .emoticono {
+  margin-right: 0;
+}
+
+/* Títulos con la tipografía manuscrita */
+.titulo-manuscrito {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  font-family: var(--fuente-manuscrita);
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.1;
+  color: var(--negro);
+}
+
+.titulo-manuscrito--mediano {
+  font-size: 36px;
+}
+
+.titulo-manuscrito--claro {
+  color: var(--blanco);
+  font-size: 34px;
+}
+
+.rayitas {
+  width: 41px;
+  margin-top: -20px;
+}
+
+.subtitulo {
+  margin-top: 8px;
+  color: var(--gris-700);
+}
+
+/* Botones */
+.boton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: var(--radio-pildora);
+  font: 600 16px/1 var(--fuente);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s, filter 0.15s;
+}
+
+.boton:hover {
+  filter: brightness(1.05);
+}
+
+.boton:active {
+  transform: scale(0.98);
+}
+
+.boton--principal {
+  background: var(--azul-500);
+  color: var(--blanco);
+}
+
+/* Botones de la bienvenida (colores de tu Pantalla 1.2) */
+.boton--amarillo {
+  background: color-mix(in srgb, var(--amarillo-500) 70%, transparent);
+  color: var(--gris-900);
+  text-transform: uppercase;
+}
+
+.boton--turquesa {
+  background: color-mix(in srgb, var(--turquesa-500) 70%, transparent);
+  color: var(--gris-900);
+  text-transform: uppercase;
+}
+
+/* Enlaces de texto */
+.enlace {
+  font-size: 14px;
+  color: var(--azul-500);
+}
+
+.enlace--derecha {
+  align-self: flex-end;
+}
+
+.enlace--fuerte {
+  font-weight: 600;
+}
+
+/* Campos de formulario con forma de píldora */
+.campo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 49px;
+  padding: 0 18px;
+  border: 0.5px solid var(--negro);
+  border-radius: var(--radio-pildora);
+  background: color-mix(in srgb, var(--amarillo-300) 50%, var(--blanco));
+  cursor: text;
+}
+
+.campo:focus-within {
+  border-color: var(--azul-500);
+  box-shadow: 0 0 0 3px var(--azul-100);
+}
+
+.campo input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  font: 400 16px var(--fuente);
+  color: var(--negro);
+  outline: none;
+}
+
+.campo input::placeholder {
+  color: var(--gris-700);
+}
+
+.campo__icono {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--negro);
+}
+
+/* Estado de error (lo usaremos con JavaScript) */
+.campo--error {
+  border: 1.5px solid var(--error);
+}
+
+.mensaje-error {
+  margin: 6px 0 0 4px;
+  font-size: 14px;
+  color: var(--error);
+}
+
+/* Chips (barrios) */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 8px;
+  margin-top: 20px;
+}
+
+/* Escondemos el círculo del radio/checkbox; se pulsa el label.
+   Usamos position: fixed (y no absolute) porque, al pulsar el label,
+   el navegador da el foco al input y hace scroll hasta él.
+   Con absolute el input invisible se quedaba arriba del todo de la lista
+   y la pantalla "saltaba" hacia arriba. Con fixed siempre está dentro
+   de la pantalla, así que el navegador no necesita moverse. */
+.chips input,
+.categorias input,
+.filtros input,
+.segmentado input {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip {
+  padding: 8px 14px;
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio-pildora);
+  background: var(--blanco);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chip:hover {
+  border-color: var(--azul-300);
+}
+
+/* Chip seleccionado: el input:checked va justo antes de su label (+) */
+.chips input:checked + .chip {
+  background: var(--azul-500);
+  border-color: var(--azul-500);
+  color: var(--blanco);
+}
+
+.chips input:checked + .chip::before {
+  content: "✓ ";
+}
+
+.chips input:focus-visible + .chip {
+  outline: 3px solid var(--azul-500);
+  outline-offset: 2px;
+}
+
+/* Avatar redondo con iniciales */
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-weight: 600;
+  color: var(--gris-900);
+  text-decoration: none;
+}
+
+/* Barra inferior fija con el botón de continuar */
+.barra-inferior {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px var(--margen) 34px;
+  background: var(--blanco);
+  box-shadow: var(--sombra-suave);
+}
+
+.barra-inferior .boton {
+  max-width: 390px;
+}
+
+
+/* ---------- 5. PANTALLAS ---------- */
+
+/* ===== Bienvenida ===== */
+.bienvenida {
+  background: var(--gris-900);
+  color: var(--blanco);
+}
+
+.bienvenida__contenido {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 402px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  /* 233 px arriba: el "Hobby" empieza a la misma altura que en tu Figma */
+  padding: 233px var(--margen) 79px;
+}
+
+.forma--azul {
+  top: 41px;
+  right: -45px;
+  width: 273px;
+}
+
+.forma--amarilla {
+  /* Se sale un poco por la izquierda, igual que en el Figma */
+  left: -29px;
+  /* Medida desde abajo para que siempre quede junto a los botones
+     (en el Figma acaba a 137 px del borde inferior) */
+  bottom: 137px;
+  width: 151px;
+}
+
+.forma--turquesa {
+  /* En el Figma esta forma va POR ENCIMA de los botones y tapa su punta derecha.
+     z-index 2 la pone delante del contenido (que tiene z-index 1).
+     Como es una .forma, no se puede pulsar: el clic llega al botón de debajo. */
+  z-index: 2;
+  right: -93px;
+  bottom: -88px;
+  width: 237px;
+  height: 335px;
+  border-radius: 70px;
+  background: var(--turquesa-500);
+  transform: rotate(26.4deg); /* inclinada hacia la derecha, como en el Figma */
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  font-size: 76px;
+  font-weight: 700;
+  line-height: 0.9;
+  gap: 6px;
+  letter-spacing: -1px;
+  color: var(--blanco);
+  /* Sombra desplazada como en tu Figma: una copia del texto 2 px a la derecha
+     y 2 px abajo en gris claro (gris-300) */
+  text-shadow: 2px 2px 0 var(--gris-300);
+}
+
+.logo__linea--derecha {
+  padding-left: 34px;
+}
+
+.lema {
+  position: relative;
+  margin-top: 33px;
+  font-family: var(--fuente-manuscrita);
+  font-size: 30px;
+  line-height: 1.7; /* 170 %, como en el Figma */
+  text-align: center;
+}
+
+.lema__madrid {
+  display: inline-block;
+  /* Más hueco a la derecha: ahí apoya el oso la pata sin tapar la "d" */
+  padding: 0 14px 0 6px;
+  border-radius: 10px;
+  background: var(--viajes-500);
+  color: var(--gris-900);
+  line-height: 1.3; /* la etiqueta mide 39 px de alto, como en el Figma */
+  transform: rotate(-11.5deg);
+}
+
+.lema__grupo {
+  position: relative;
+  display: inline-block;
+}
+
+/* Colocado respecto a la etiqueta "Madrid": las patas tocan su borde derecho */
+.lema__oso {
+  position: absolute;
+  left: calc(100% - 10px);
+  top: -8px;
+  width: 62px;
+  height: 114px;
+  color: var(--color-oso);
+}
+
+.bienvenida__botones {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 110px;
+}
+
+/* Los dos botones NO están alineados entre sí (como en el Figma):
+   - "Iniciar sesión" empieza más a la derecha, pisando la forma amarilla,
+     y se mete por debajo de la forma turquesa.
+   - "Crear usuario" se pega más al borde izquierdo.
+   Usamos márgenes (negativos para salir del margen de la pantalla)
+   en vez de anchos fijos, así se adaptan a cualquier móvil. */
+.bienvenida__botones .boton--amarillo {
+  width: auto; /* el ancho lo deciden los márgenes */
+  min-height: 57px;
+  margin: 0 -8px 0 55px;
+}
+
+.bienvenida__botones .boton--turquesa {
+  width: auto;
+  min-height: 62px;
+  margin: 0 28px 0 -8px;
+}
+
+/* ===== Crear usuario / Iniciar sesión ===== */
+/* El panel de color solo existe en el ordenador (ver sección 8) */
+.panel-web {
+  display: none;
+}
+
+.formulario-pantalla {
+  padding-bottom: 140px;
+}
+
+.forma--lila {
+  top: 31px;
+  right: -40px;
+  width: 112px;
+}
+
+.forma--verde {
+  left: 0;
+  bottom: 0;
+  width: 108px;
+}
+
+.cabecera {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 140px;
+  padding-top: 30px;
+}
+
+.cabecera--izquierda {
+  justify-content: flex-start;
+  height: 110px;
+  max-width: 440px;
+  margin: 0 auto;
+  padding-left: var(--margen);
+}
+
+.cabecera__volver {
+  position: absolute;
+  left: var(--margen);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+}
+
+.cabecera--izquierda .cabecera__volver {
+  position: static;
+  margin-left: -8px;
+}
+
+.cabecera__volver svg {
+  width: 34px;
+  height: 34px;
+}
+
+.cabecera__titulo {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.formulario-pantalla .titulo-manuscrito {
+  margin: 30px 0 28px;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formulario .boton--principal {
+  margin-top: 20px;
+}
+
+.separador {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 32px 0 26px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.separador::before,
+.separador::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--negro);
+}
+
+.sociales {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.social {
+  display: grid;
+  place-items: center;
+  width: 126px;
+  height: 62px;
+  border: 0;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--cultura-300) 60%, var(--blanco));
+  cursor: pointer;
+}
+
+.social img {
+  width: 32px;
+  height: 32px;
+}
+
+.legal {
+  margin-top: 48px;
+  font-size: 12px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.legal a {
+  color: var(--azul-500);
+}
+
+.texto-centro {
+  margin-top: 20px;
+  font-size: 14px;
+  text-align: center;
+  color: var(--gris-700);
+}
+
+/* ===== Onboarding (barrio y categorías) ===== */
+.onboarding {
+  padding-bottom: 170px;
+}
+
+.forma--pequena {
+  top: 20px;
+  right: -20px;
+  width: 78px;
+}
+
+.progreso {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 26px;
+}
+
+.progreso__barra {
+  width: 64px; /* 3 pasos: caben las barras y el texto en 390 px */
+  height: 6px;
+  border-radius: 3px;
+  background: var(--gris-300);
+}
+
+.progreso__barra--activa {
+  background: var(--azul-500);
+}
+
+.progreso__texto {
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--gris-500);
+}
+
+.campo--buscador {
+  margin-top: 22px;
+}
+
+.nota {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--gris-500);
+}
+
+/* Tarjetas de categoría */
+.categorias {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.categoria {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio-tarjeta);
+  background: var(--blanco);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.categoria:hover {
+  border-color: var(--cat-500);
+}
+
+.categoria__cabecera {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.categoria__emoticono {
+  width: 40px;
+  height: 40px;
+  margin: 0;
+}
+
+.categoria__check {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin-left: auto;
+  border: 1.5px solid var(--gris-300);
+  border-radius: 50%;
+  font-size: 15px;
+  color: var(--blanco);
+}
+
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.etiquetas span {
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--gris-100);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gris-700);
+}
+
+/* Categoría elegida: usa su color 300 de fondo y 700 de borde */
+.categorias input:checked + .categoria {
+  border: 2px solid var(--cat-700);
+  background: var(--cat-300);
+}
+
+.categorias input:checked + .categoria .categoria__check {
+  border-color: var(--cat-700);
+  background: var(--cat-700);
+}
+
+.categorias input:checked + .categoria .categoria__check::before {
+  content: "✓";
+}
+
+.categorias input:checked + .categoria .etiquetas span {
+  background: var(--blanco);
+}
+
+.categorias input:focus-visible + .categoria {
+  outline: 3px solid var(--azul-500);
+  outline-offset: 2px;
+}
+
+/* Cada categoría marcada suma 1 al contador */
+.categorias input:checked {
+  counter-increment: elegidas;
+}
+
+.contador-categorias {
+  font-size: 14px;
+  color: var(--gris-700);
+}
+
+/* Escribe el número antes del texto "categorías elegidas" */
+.contador-categorias::before {
+  content: counter(elegidas) " ";
+  font-weight: 700;
+}
+
+/* El contador empieza en 0 en la pantalla entera,
+   así llega tanto a la lista como a la barra inferior */
+#aficiones {
+  counter-reset: elegidas;
+}
+
+/* ===== Inicio (propuesta B "Cartelera" del Figma) ===== */
+.inicio {
+  padding-bottom: 110px;
+  background: var(--amarillo-100);
+}
+
+.inicio__cabecera {
+  position: relative;
+  overflow: hidden;
+  padding: 52px 0 4px;
+}
+
+/* Forma turquesa que asoma por la esquina de arriba a la derecha */
+.inicio__forma {
+  top: -110px;
+  right: -90px;
+  width: 210px;
+  height: 210px;
+  border-radius: 80px;
+  background: var(--turquesa-500);
+  transform: rotate(25deg);
+}
+
+.inicio__cabecera .titulo-manuscrito {
+  font-size: 30px;
+}
+
+.forma--cabecera {
+  top: -30px;
+  right: -40px;
+  width: 170px;
+}
+
+.inicio__saludo {
+  position: relative; /* por encima de la forma turquesa */
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.inicio__ubicacion {
+  margin-top: 2px;
+  font-size: 14px;
+  color: var(--gris-700);
+}
+
+.avatar--yo {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--blanco);
+  background: var(--azul-500);
+  color: var(--blanco);
+}
+
+.resumen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.resumen__dato {
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  /* Efecto vidrio (como tus variables "Efectos/Vidrio") */
+  backdrop-filter: blur(12px);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gris-300);
+}
+
+.resumen__dato strong {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Resumen de Inicio: fichas con los colores base */
+.inicio .resumen {
+  margin-top: 16px;
+}
+
+.inicio .resumen li:nth-child(1) .resumen__dato { border-color: var(--amarillo-500); background: var(--amarillo-300); }
+.inicio .resumen li:nth-child(2) .resumen__dato { border-color: var(--turquesa-300); background: var(--turquesa-100); }
+.inicio .resumen li:nth-child(3) .resumen__dato { border-color: var(--musica-300); background: var(--blanco); }
+
+/* ----- Cartelera: planes de los próximos 5 días ----- */
+/* min-width: 0 evita que la fila de carteles ensanche la pantalla */
+.inicio__cuerpo > section {
+  min-width: 0;
+}
+
+.cartelera__titulo {
+  font-size: 32px;
+}
+
+.cartelera__subtitulo {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--gris-700);
+}
+
+/* Fila que se desliza de lado. scroll-snap hace que cada cartel "encaje" al soltar */
+.carteles {
+  display: flex;
+  gap: 14px;
+  margin: 16px calc(var(--margen) * -1) 0;
+  padding: 4px var(--margen) 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 var(--margen);
+  scrollbar-width: none;
+}
+
+.carteles::-webkit-scrollbar {
+  display: none;
+}
+
+.cartel {
+  position: relative;
+  isolation: isolate; /* la capa de color (::before) se queda dentro del cartel */
+  display: flex;
+  flex: 0 0 255px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  overflow: hidden;
+  border-radius: 28px;
+  scroll-snap-align: start;
+  /* La foto (si hay) la pone JavaScript de fondo; la capa de color va encima con ::before */
+  background-color: var(--cat-300);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.cartel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--cat-300);
+}
+
+/* Con foto: la "tela" del color de la categoría se vuelve transparente */
+.cartel--foto::before {
+  opacity: 0.62;
+}
+
+
+/* Con foto, los textos pequeños van en el gris más oscuro para que se lean bien */
+.cartel--foto .cartel__meta,
+.cartel--foto .cartel__gente {
+  color: var(--gris-900);
+}
+
+.cartel__cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+/* La fecha parece una entrada de cine */
+.cartel__fecha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 58px;
+  padding: 8px 10px;
+  border-radius: 16px;
+  background: var(--blanco);
+  line-height: 1.1;
+}
+
+.cartel__fecha small {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gris-500);
+}
+
+.cartel__fecha strong {
+  font-size: 26px;
+  color: var(--gris-900);
+}
+
+.cartel__emoticono {
+  width: 72px;
+  height: 72px;
+  margin: 0;
+}
+
+.cartel__nombre {
+  font-family: var(--fuente-manuscrita);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--gris-900);
+}
+
+.cartel__meta {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gris-700);
+}
+
+.cartel__gente {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto; /* empuja la gente y el botón abajo del todo */
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cat-700);
+}
+
+/* Avatares pequeños montados unos encima de otros */
+.apuntados {
+  display: flex;
+}
+
+.apuntados__avatar {
+  width: 26px;
+  height: 26px;
+  margin-left: -8px;
+  border: 2px solid var(--blanco);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.apuntados__avatar:first-child {
+  margin-left: 0;
+}
+
+.cartel__boton {
+  min-height: 44px;
+  margin-top: 4px;
+  background: var(--gris-900);
+  font-size: 14px;
+  color: var(--blanco);
+}
+
+.cartel__boton--voy {
+  background: var(--blanco);
+  color: var(--gris-900);
+}
+
+.cartel__boton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ----- Tus planes ----- */
+.tus-planes {
+  display: grid;
+  gap: 10px;
+}
+
+.mi-plan {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px 10px 10px;
+  border-radius: 18px;
+  background: var(--blanco);
+}
+
+.mi-plan__emoticono {
+  width: 40px;
+  height: 40px;
+  margin: 0;
+}
+
+.mi-plan__textos {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mi-plan__textos strong {
+  font-size: 14px;
+}
+
+.mi-plan__textos small {
+  font-size: 12px;
+  color: var(--gris-500);
+}
+
+.mi-plan__boton {
+  border-color: var(--cat-500);
+  background: var(--cat-500);
+  color: var(--gris-900);
+}
+
+.inicio__cuerpo {
+  display: grid;
+  gap: 28px;
+  padding-top: 24px;
+}
+
+.seccion-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.seccion-titulo h3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Carrusel horizontal de personas (se desliza con el dedo) */
+.carrusel {
+  display: flex;
+  gap: 12px;
+  margin: 0 calc(var(--margen) * -1);
+  padding: 0 var(--margen) 6px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.persona {
+  flex: 0 0 168px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 14px;
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio-tarjeta);
+  background: var(--blanco);
+  scroll-snap-align: start;
+}
+
+.persona__nombre {
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.persona__barrio {
+  font-size: 12px;
+  color: var(--gris-500);
+}
+
+.persona__afinidad {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--azul-100);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--azul-500);
+}
+
+.persona__aficiones {
+  font-size: 12px;
+  color: var(--gris-700);
+}
+
+/* Lista de tendencias */
+.tendencias {
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio-tarjeta);
+  background: var(--blanco);
+}
+
+.tendencia {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.tendencia + .tendencia {
+  border-top: 1px solid var(--gris-100);
+}
+
+.tendencia__puesto {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--cat-500);
+  font-weight: 600;
+}
+
+.tendencia__texto {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.tendencia__texto small {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gris-500);
+}
+
+.tendencia__flecha {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--deportes-700);
+}
+
+/* Barra de navegación inferior */
+.navegacion {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 12px 18px;
+  border-radius: 24px 24px 0 0;
+  background: var(--blanco);
+  box-shadow: 0 -4px 20px rgba(21, 31, 54, 0.1);
+}
+
+.navegacion__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 56px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gris-500);
+  text-decoration: none;
+}
+
+.navegacion__item svg {
+  width: 24px;
+  height: 24px;
+}
+
+.navegacion__item--activo {
+  font-weight: 700;
+  color: var(--azul-500);
+}
+
+
+/* ===== Atributo hidden =====
+   Algunos componentes usan display:flex/grid; así "hidden" siempre gana. */
+[hidden] {
+  display: none !important;
+}
+
+/* ===== Botones nuevos (MVP: Mis aficiones) ===== */
+.boton--secundario {
+  background: var(--blanco);
+  color: var(--azul-500);
+  box-shadow: inset 0 0 0 1.5px var(--azul-500);
+}
+
+.boton--peligro {
+  background: var(--error);
+  color: var(--blanco);
+}
+
+/* Botón que no ocupa todo el ancho (estados vacíos) */
+.boton--estrecho {
+  width: auto;
+  margin-top: 8px;
+}
+
+/* Botón redondo "+" para añadir */
+.boton-redondo {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--azul-500);
+  color: var(--blanco);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(72, 116, 222, 0.35);
+  transition: transform 0.15s;
+}
+
+.boton-redondo:active {
+  transform: scale(0.94);
+}
+
+/* Botón que parece un enlace */
+.boton-texto {
+  padding: 8px;
+  border: 0;
+  background: none;
+  font: 600 16px var(--fuente);
+  cursor: pointer;
+}
+
+.boton-texto--pequeno {
+  margin-top: 8px;
+  padding: 4px 0;
+  font-size: 14px;
+  color: var(--azul-500);
+}
+
+.boton-texto--peligro {
+  color: var(--error);
+}
+
+/* ===== Mis aficiones: listado ===== */
+.mis-aficiones {
+  padding-bottom: 110px;
+  background: var(--gris-100);
+}
+
+.lista-cabecera {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 64px 0 8px;
+}
+
+.lista-cabecera__contador {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--gris-500);
+}
+
+.herramientas .campo--buscador {
+  margin-top: 14px;
+}
+
+/* Chips de filtro: una fila que se desliza en horizontal */
+.filtros {
+  display: flex;
+  gap: 8px;
+  margin: 14px calc(var(--margen) * -1) 0;
+  padding: 0 var(--margen) 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.chip--filtro {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* El chip de una categoría usa su color al estar elegido */
+.filtros input:checked + .chip--filtro {
+  border-color: var(--cat-700, var(--azul-500));
+  background: var(--cat-500, var(--azul-500));
+  color: var(--gris-900);
+}
+
+/* "Todas" no tiene categoría: azul */
+.filtros input:checked + .chip--filtro:not([style]) {
+  color: var(--blanco);
+}
+
+.filtros input:focus-visible + .chip--filtro {
+  outline: 3px solid var(--azul-500);
+  outline-offset: 2px;
+}
+
+.lista-aficiones {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+/* Tarjeta de cada afición: borde izquierdo con el color de su categoría */
+.tarjeta-aficion {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--gris-300);
+  border-left: 6px solid var(--cat-500);
+  border-radius: 16px;
+  background: var(--blanco);
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.tarjeta-aficion:hover {
+  box-shadow: 0 4px 14px rgba(21, 31, 54, 0.08);
+}
+
+.tarjeta-aficion:active {
+  transform: scale(0.99);
+}
+
+.tarjeta-aficion__emoticono {
+  width: 46px;
+  height: 46px;
+  margin: 0;
+}
+
+.tarjeta-aficion__textos {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tarjeta-aficion__nombre {
+  overflow: hidden;
+  font-size: 17px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tarjeta-aficion__meta {
+  font-size: 13px;
+  color: var(--gris-500);
+}
+
+.tarjeta-aficion__flecha {
+  font-size: 28px;
+  line-height: 1;
+  color: var(--gris-300);
+}
+
+/* Estados: vacío, sin resultados y error */
+.estado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 48px 12px 24px;
+  text-align: center;
+}
+
+.estado__oso {
+  width: 74px;
+  height: 136px;
+  margin-bottom: 8px;
+  color: var(--color-oso);
+}
+
+.estado--error .estado__oso {
+  color: var(--gris-300);
+}
+
+.estado__titulo {
+  font-family: var(--fuente-manuscrita);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.estado__texto {
+  max-width: 300px;
+  color: var(--gris-700);
+}
+
+/* ===== Formulario de afición ===== */
+.formulario-aficion {
+  padding-bottom: 190px;
+}
+
+.formulario-aficion .cabecera--izquierda {
+  height: 90px;
+}
+
+.formulario--aficion {
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.grupo {
+  display: flex;
+  flex-direction: column;
+}
+
+.etiqueta {
+  margin-bottom: 8px;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gris-700);
+}
+
+/* Select con forma de campo y flecha propia */
+.campo--select {
+  position: relative;
+  padding: 0;
+}
+
+.campo--select select {
+  width: 100%;
+  height: 100%;
+  padding: 0 44px 0 18px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  font: 400 16px var(--fuente);
+  color: var(--negro);
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.campo--select::after {
+  content: "";
+  position: absolute;
+  right: 20px;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--negro);
+  border-bottom: 2px solid var(--negro);
+  transform: translateY(-3px) rotate(45deg);
+  pointer-events: none;
+}
+
+/* Control segmentado (nivel): tres opciones pegadas */
+.segmentado {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 4px;
+  border-radius: var(--radio-pildora);
+  background: var(--gris-100);
+}
+
+.segmentado label {
+  padding: 10px 4px;
+  border-radius: var(--radio-pildora);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--gris-700);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.segmentado input:checked + label {
+  background: var(--azul-500);
+  color: var(--blanco);
+}
+
+.segmentado input:focus-visible + label {
+  outline: 3px solid var(--azul-500);
+  outline-offset: 2px;
+}
+
+.chips--formulario {
+  margin-top: 0;
+}
+
+.area-texto {
+  width: 100%;
+  padding: 14px 18px;
+  border: 0.5px solid var(--negro);
+  border-radius: var(--radio-tarjeta);
+  background: color-mix(in srgb, var(--amarillo-300) 50%, var(--blanco));
+  font: 400 16px/1.5 var(--fuente);
+  resize: vertical;
+}
+
+.area-texto:focus {
+  border-color: var(--azul-500);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--azul-100);
+}
+
+.formulario--aficion .barra-inferior .boton {
+  margin-top: 0;
+}
+
+/* ===== Detalle ===== */
+.detalle {
+  padding-bottom: 170px;
+  background: var(--gris-100);
+}
+
+/* La cabecera toma el color de la categoría (app.js pone --cat-*) */
+.detalle__cabecera {
+  padding: 30px 0 30px;
+  border-radius: 0 0 32px 32px;
+  background: var(--cat-300, var(--cultura-300));
+}
+
+.cabecera__volver--estatico {
+  position: static;
+  margin: 0 0 20px -8px;
+}
+
+.etiqueta-categoria {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--radio-pildora);
+  background: var(--cat-500, var(--cultura-500));
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gris-900);
+}
+
+.detalle__nombre {
+  margin-top: 10px;
+  font-family: var(--fuente-manuscrita);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.detalle__cuerpo {
+  display: grid;
+  gap: 16px;
+  padding-top: 22px;
+}
+
+.datos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 0;
+}
+
+.datos__item {
+  padding: 12px;
+  border: 1px solid var(--gris-300);
+  border-radius: 16px;
+  background: var(--blanco);
+}
+
+.datos dt {
+  font-size: 12px;
+  color: var(--gris-500);
+}
+
+.datos dd {
+  margin: 2px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tarjeta {
+  padding: 16px 18px;
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio-tarjeta);
+  background: var(--blanco);
+}
+
+.tarjeta__titulo {
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gris-500);
+}
+
+.tarjeta__texto {
+  overflow-wrap: anywhere;
+  white-space: pre-line; /* respeta los saltos de línea que escribe el usuario */
+}
+
+.afines {
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: var(--azul-100);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--azul-700);
+}
+
+/* ===== Diálogo de confirmación ===== */
+.dialogo {
+  width: calc(100% - 40px);
+  max-width: 360px;
+  padding: 28px 24px 20px;
+  border: 0;
+  border-radius: 28px;
+  text-align: center;
+  color: var(--gris-900);
+}
+
+.dialogo::backdrop {
+  background: rgba(21, 31, 54, 0.55);
+}
+
+.dialogo[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dialogo__icono {
+  display: block;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 4px;
+}
+
+.titulo-manuscrito--dialogo {
+  justify-content: center;
+  font-size: 30px;
+}
+
+.dialogo__texto {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--gris-700);
+}
+
+/* ===== Aviso (toast) ===== */
+/* Arriba de la pantalla para no tapar los botones de la barra inferior */
+.aviso {
+  position: fixed;
+  left: 50%;
+  top: 20px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 40px);
+  padding: 12px 20px;
+  border-radius: var(--radio-pildora);
+  background: var(--gris-900);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blanco);
+  transform: translateX(-50%);
+  box-shadow: 0 8px 24px rgba(21, 31, 54, 0.25);
+  animation: aparecer 0.2s ease-out;
+}
+
+.aviso__icono {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--deportes-500);
+  color: var(--gris-900);
+  font-size: 12px;
+}
+
+.aviso--error .aviso__icono {
+  background: var(--error);
+  color: var(--blanco);
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+}
+
+/* Los "ojos" de la contraseña se pueden pulsar */
+.campo__icono--derecha {
+  cursor: pointer;
+}
+
+/* ===== Responsive de las pantallas nuevas ===== */
+@media (min-width: 768px) {
+  .lista-aficiones {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .formulario-aficion .contenedor {
+    max-width: 560px;
+  }
+
+  .filtros {
+    flex-wrap: wrap;
+    margin: 14px 0 0;
+    padding: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lista-aficiones {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Doble clase para ganar a .contenedor de 1440 px (más específico) */
+  .detalle .contenedor {
+    max-width: 720px;
+  }
+}
+
+
+/* =========================================================
+   PANTALLAS SOCIALES: Explorar, perfiles, amigos y listas
+   ========================================================= */
+
+/* Avatares con foto: la imagen rellena el círculo */
+.avatar {
+  flex-shrink: 0;
+  background-position: center;
+  background-size: cover;
+}
+
+.avatar--grande {
+  width: 96px;
+  height: 96px;
+  border: 4px solid var(--blanco);
+  font-size: 36px;
+  box-shadow: 0 6px 18px rgba(21, 31, 54, 0.15);
+}
+
+.avatar--pequeno {
+  width: 44px;
+  height: 44px;
+  font-size: 16px;
+}
+
+/* El resumen de Inicio ahora son enlaces */
+.resumen__dato {
+  height: 100%;
+  text-decoration: none;
+}
+
+/* Tarjeta de persona: toda la tarjeta es un enlace */
+.persona {
+  padding: 0;
+}
+
+.persona__enlace {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 16px 14px;
+  border-radius: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+.persona__enlace:hover {
+  box-shadow: 0 4px 14px rgba(21, 31, 54, 0.08);
+}
+
+.persona__marca {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  padding: 2px 8px;
+  border-radius: var(--radio-pildora);
+  background: var(--turquesa-100);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--turquesa-900);
+}
+
+/* Tendencias: ahora cada una es un botón (al pulsar busca esa afición) */
+.tendencias li + li .tendencia {
+  border-top: 1px solid var(--gris-100);
+}
+
+button.tendencia {
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.tendencias li:first-child .tendencia { border-radius: var(--radio-tarjeta) var(--radio-tarjeta) 0 0; }
+.tendencias li:last-child .tendencia { border-radius: 0 0 var(--radio-tarjeta) var(--radio-tarjeta); }
+
+button.tendencia:hover {
+  background: var(--gris-100);
+}
+
+/* Bloques con título dentro de una pantalla */
+.bloque {
+  margin-top: 26px;
+}
+
+.bloque__titulo {
+  margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.seccion-titulo .bloque__titulo {
+  margin-bottom: 0;
+}
+
+/* ===== Explorar ===== */
+.explorar,
+.amigos,
+.perfil {
+  padding-bottom: 110px;
+  background: var(--gris-100);
+}
+
+.explorar .campo--buscador {
+  margin-top: 14px;
+}
+
+.explorar__opciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.explorar__opciones .boton-texto--pequeno {
+  margin-top: 0;
+}
+
+/* Interruptor (checkbox con aspecto de botón deslizante) */
+.interruptor {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.interruptor input {
+  position: fixed; /* mismo truco que los chips: no hace saltar la pantalla */
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.interruptor__pista {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border-radius: var(--radio-pildora);
+  background: var(--gris-300);
+  transition: background 0.2s;
+}
+
+.interruptor__pista::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--blanco);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.interruptor input:checked + .interruptor__pista {
+  background: var(--azul-500);
+}
+
+.interruptor input:checked + .interruptor__pista::after {
+  transform: translateX(18px);
+}
+
+.interruptor input:focus-visible + .interruptor__pista {
+  outline: 3px solid var(--azul-500);
+  outline-offset: 2px;
+}
+
+/* Resultados en rejilla: 2 columnas en móvil */
+.rejilla-personas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.rejilla-personas .persona__aficiones {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* ===== Ficha de perfil (mía y de otras personas) ===== */
+.ficha {
+  padding-bottom: 190px;
+  background: var(--gris-100);
+}
+
+.ficha__cabecera {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 0 28px;
+  border-radius: 0 0 32px 32px;
+  background: var(--cat-300, var(--azul-100));
+  text-align: center;
+}
+
+.ficha__cabecera .contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ficha__cabecera .cabecera__volver--estatico {
+  align-self: flex-start;
+  margin-bottom: 0;
+}
+
+.ficha__cabecera--oscura {
+  padding-top: 56px;
+  background: var(--gris-900);
+  color: var(--blanco);
+}
+
+.ficha__nombre {
+  margin-top: 12px;
+  font-family: var(--fuente-manuscrita);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.ficha__datos {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--gris-700);
+}
+
+.ficha__cabecera--oscura .ficha__datos {
+  color: var(--gris-300);
+}
+
+.ficha__descripcion {
+  max-width: 320px;
+  margin: 10px 0 16px;
+  font-size: 14px;
+  color: var(--gris-300);
+  overflow-wrap: anywhere;
+}
+
+.ficha__afinidad {
+  margin-top: 10px;
+  padding: 4px 12px;
+  border-radius: var(--radio-pildora);
+  background: var(--blanco);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cat-700, var(--azul-700));
+}
+
+.ficha__cuerpo {
+  display: grid;
+  gap: 18px;
+  padding-top: 22px;
+}
+
+.ficha__cuerpo .bloque {
+  margin-top: 0;
+}
+
+/* Etiquetas de aficiones con el color de su categoría */
+.lista-etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.etiqueta-aficion {
+  padding: 6px 12px;
+  border-radius: var(--radio-pildora);
+  background: var(--cat-300);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gris-900);
+}
+
+.etiqueta-aficion--afin {
+  background: var(--cat-500);
+  box-shadow: inset 0 0 0 1.5px var(--cat-700);
+}
+
+/* ===== Mi perfil ===== */
+.perfil .ficha__cabecera {
+  padding-bottom: 32px;
+}
+
+.perfil .forma--cabecera {
+  top: -40px;
+  right: -90px;
+  width: 260px;
+  opacity: 0.9;
+}
+
+.resumen--claro {
+  margin-top: 0;
+}
+
+.resumen--claro .resumen__dato {
+  border-color: var(--gris-300);
+  background: var(--blanco);
+  backdrop-filter: none;
+  color: var(--gris-500);
+}
+
+.resumen--claro .resumen__dato strong {
+  color: var(--gris-900);
+}
+
+.bloque--cuenta {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid var(--gris-300);
+}
+
+.rejilla-listas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.tarjeta-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 100%;
+  padding: 14px;
+  border: 1px solid var(--gris-300);
+  border-radius: 16px;
+  background: var(--blanco);
+  color: inherit;
+  text-decoration: none;
+}
+
+.tarjeta-lista:hover {
+  box-shadow: 0 4px 14px rgba(21, 31, 54, 0.08);
+}
+
+.tarjeta-lista__emoji {
+  width: 44px;
+  height: 44px;
+  margin: 0;
+}
+
+.tarjeta-lista strong {
+  overflow-wrap: anywhere;
+}
+
+.tarjeta-lista small {
+  font-size: 12px;
+  color: var(--gris-500);
+}
+
+.estado--pequeno {
+  padding: 16px 12px;
+}
+
+.estado--pequeno .estado__oso {
+  width: 50px;
+  height: 92px;
+}
+
+/* ===== Editar perfil ===== */
+.foto-editor {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.foto-editor .avatar--grande {
+  border-color: var(--gris-100);
+}
+
+.foto-editor__botones {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.foto-editor__botones .boton--estrecho {
+  min-height: 42px;
+  margin-top: 0;
+}
+
+/* Se ve el contorno de foco aunque el input de archivo esté escondido */
+.foto-editor input:focus-visible + .boton,
+.foto-editor__botones input:focus-visible {
+  outline: 3px solid var(--azul-500);
+}
+
+.segmentado--dos {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+#borrar-preferencias {
+  align-self: flex-start;
+  margin-top: -8px;
+}
+
+/* Iconos de lista: chips con solo el emoticono */
+.chips--emoji .chip {
+  padding: 4px 8px;
+}
+
+.chips--emoji .chip .emoticono {
+  width: 34px;
+  height: 34px;
+  margin: 0;
+}
+
+.chips--emoji input:checked + .chip::before {
+  content: "";
+}
+
+/* ===== Filas de personas (Amigos y Listas) ===== */
+.lista-personas {
+  display: grid;
+  gap: 10px;
+}
+
+/* min-width: 0 deja que la fila se encoja dentro de la rejilla (si no, se sale por la derecha) */
+.fila-persona {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--gris-300);
+  border-radius: 16px;
+  background: var(--blanco);
+}
+
+.fila-persona__enlace {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.fila-persona__textos {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fila-persona__textos small {
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--gris-500);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fila-persona__acciones {
+  display: flex;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+/* Botones pequeños dentro de las filas */
+.boton-mini {
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio-pildora);
+  background: var(--blanco);
+  font: 600 13px var(--fuente);
+  color: var(--gris-700);
+  cursor: pointer;
+}
+
+.boton-mini--principal {
+  border-color: var(--azul-500);
+  background: var(--azul-500);
+  color: var(--blanco);
+}
+
+.boton-mini--peligro {
+  border-color: #F3C4C4;
+  color: var(--error);
+}
+
+/* Lupa dentro del botón redondo de Amigos */
+.boton-redondo__icono {
+  width: 24px;
+  height: 24px;
+}
+
+.boton-redondo--pequeno {
+  width: 46px;
+  height: 46px;
+  border: 0;
+  font-size: 26px;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+/* Cabecera de lista con color neutro */
+.detalle__cabecera--lista {
+  background: var(--amarillo-300);
+}
+
+.detalle__cabecera--lista .etiqueta-categoria {
+  background: var(--amarillo-500);
+}
+
+/* ===== Diálogo "Guardar en una lista" ===== */
+.dialogo--listas {
+  text-align: left;
+}
+
+.dialogo--listas .titulo-manuscrito--dialogo {
+  justify-content: flex-start;
+}
+
+.opciones-listas {
+  display: grid;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.opciones-listas input {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opcion-lista {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border: 1px solid var(--gris-300);
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.opcion-lista::after {
+  content: "";
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--gris-300);
+  border-radius: 6px;
+}
+
+.opciones-listas input:checked + .opcion-lista {
+  border-color: var(--azul-500);
+  background: var(--azul-100);
+}
+
+.opciones-listas input:checked + .opcion-lista::after {
+  content: "✓";
+  display: grid;
+  place-items: center;
+  border-color: var(--azul-500);
+  background: var(--azul-500);
+  font-size: 14px;
+  color: var(--blanco);
+}
+
+.opciones-listas input:focus-visible + .opcion-lista {
+  outline: 3px solid var(--azul-500);
+}
+
+.nueva-lista-rapida {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.nueva-lista-rapida .campo {
+  flex: 1;
+  height: 46px;
+}
+
+/* ===== Responsive de las pantallas sociales ===== */
+@media (min-width: 768px) {
+  .rejilla-personas {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .rejilla-listas {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lista-personas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ficha .contenedor,
+  .perfil .contenedor {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .rejilla-personas {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .rejilla-listas {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .rejilla-personas {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  /* Doble clase para ganar a .contenedor de 1440 px */
+  .ficha .contenedor,
+  .perfil .contenedor {
+    max-width: 720px;
+  }
+}
+
+
+/* ===== Vista móvil (dentro de movil.html) =====
+   arrastre.js añade la clase "en-marco": quitamos las barras de scroll
+   porque en un móvil no se ven, y la pantalla se mueve arrastrando. */
+.en-marco,
+.en-marco * {
+  scrollbar-width: none; /* Firefox */
+}
+
+.en-marco ::-webkit-scrollbar {
+  display: none; /* Chrome, Edge y Safari */
+}
+
+.en-marco body {
+  cursor: grab;
+  overscroll-behavior: none;
+}
+
+.en-marco input,
+.en-marco textarea,
+.en-marco select {
+  cursor: auto;
+}
+
+/* Mientras arrastras: mano cerrada y sin seleccionar texto */
+.arrastrando,
+.arrastrando * {
+  cursor: grabbing !important;
+  user-select: none;
+}
+
+
+/* ---------- 6. RESPONSIVE ----------
+   Diseñamos primero para móvil (390 px) y ampliamos. */
+
+/* Móviles estrechos (menos de 380 px): apartamos un poco la forma turquesa
+   para que no tape las flechas de los botones */
+@media (max-width: 379px) {
+  .forma--turquesa {
+    right: -125px;
+  }
+}
+
+/* Móviles pequeños: reducimos el logo */
+@media (max-width: 360px) {
+  .logo {
+    font-size: 64px;
+  }
+
+  .lema__oso {
+    width: 52px;
+    height: 96px;
+  }
+}
+
+/* Tablet (768 px o más) */
+@media (min-width: 768px) {
+  .contenedor {
+    max-width: 680px;
+  }
+
+  .formulario-pantalla .contenedor {
+    max-width: 440px;
+  }
+
+  .cabecera--izquierda {
+    max-width: 680px;
+  }
+
+  /* Categorías en dos columnas */
+  .categorias {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Personas en rejilla en lugar de carrusel */
+  .carrusel {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .forma--azul {
+    right: -56px; /* el lado recto queda fuera de la pantalla */
+    width: 340px;
+  }
+
+  .forma--amarilla {
+    width: 200px;
+  }
+
+  .forma--turquesa {
+    right: 0;
+  }
+
+  /* La navegación se queda centrada y con ancho máximo */
+  .navegacion {
+    left: 50%;
+    right: auto;
+    width: 100%;
+    max-width: 680px;
+    transform: translateX(-50%);
+  }
+}
+
+/* Portátil y escritorio (1024 px o más) */
+@media (min-width: 1024px) {
+  .contenedor {
+    max-width: 960px;
+  }
+
+  .cabecera--izquierda {
+    max-width: 960px;
+  }
+
+  .categorias {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .carrusel {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* En escritorio, Inicio en dos columnas: personas y tendencias */
+  .inicio__cuerpo {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+
+  .inicio__cuerpo .carrusel {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .navegacion {
+    max-width: 960px;
+  }
+}
+
+/* Escritorio grande (1440 px o más) */
+@media (min-width: 1440px) {
+  .contenedor,
+  .cabecera--izquierda {
+    max-width: 1120px;
+  }
+
+  .categorias {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Si el usuario prefiere menos animaciones, las quitamos */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+
+/* ---------- 7. ORDENADOR (1024 px o más) ----------
+   En el ordenador la app no es un móvil estirado:
+   - la barra de navegación de abajo pasa a ser un MENÚ LATERAL
+   - los botones que en el móvil van fijos abajo se colocan junto al contenido
+   - las fichas (afición, persona, perfil, lista) usan dos columnas
+   - los formularios van dentro de una tarjeta blanca centrada */
+
+/* Este menú solo existe para el ordenador (en el móvil esas pantallas ya tienen sus botones abajo) */
+.navegacion.navegacion--escritorio {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --menu: 248px; /* ancho del menú lateral */
+  }
+
+  /* ===== Menú lateral ===== */
+  .navegacion,
+  .navegacion.navegacion--escritorio {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 4px;
+    width: var(--menu);
+    max-width: none;
+    padding: 36px 16px;
+    border-right: 1px solid var(--gris-300);
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* El nombre de la app arriba del menú */
+  .navegacion::before {
+    content: "HobbyMatch";
+    padding: 0 14px 28px;
+    font-family: var(--fuente-manuscrita);
+    font-size: 30px;
+    color: var(--gris-900);
+  }
+
+  .navegacion__item {
+    flex-direction: row;
+    gap: 14px;
+    min-width: 0;
+    padding: 12px 14px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gris-700);
+    transition: background 0.15s;
+  }
+
+  .navegacion__item:hover {
+    background: var(--gris-100);
+  }
+
+  .navegacion__item--activo {
+    background: var(--azul-100);
+    color: var(--azul-700);
+  }
+
+  /* Las pantallas con menú dejan sitio a la izquierda */
+  .pantalla:has(> .navegacion) {
+    padding-left: var(--menu);
+    padding-bottom: 56px;
+  }
+
+  /* ===== Botones de abajo: ya no van fijos ===== */
+  .barra-inferior {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    padding: 32px 0 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .barra-inferior .boton {
+    width: auto;
+    min-width: 200px;
+    max-width: none;
+  }
+
+  /* La bienvenida del ordenador está en la sección 8 */
+
+  /* ===== Crear usuario e Iniciar sesión: tarjeta blanca centrada ===== */
+  .formulario-pantalla {
+    padding-bottom: 56px;
+    background: var(--gris-100);
+  }
+
+  .formulario-pantalla .contenedor {
+    max-width: 480px;
+    padding: 8px 48px 40px;
+    border-radius: 32px;
+    background: var(--blanco);
+    box-shadow: 0 10px 40px rgba(21, 31, 54, 0.08);
+  }
+
+  .formulario-pantalla .titulo-manuscrito {
+    margin: 32px 0 24px;
+  }
+
+  /* ===== Onboarding: botón "Continuar" a la derecha, debajo del contenido ===== */
+  .onboarding {
+    padding-bottom: 0;
+  }
+
+  .onboarding .barra-inferior {
+    justify-content: flex-end;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px var(--margen) 56px;
+  }
+
+  .onboarding .contador-categorias {
+    margin-right: 12px;
+  }
+
+  /* ===== Formularios (afición, editar perfil, lista): tarjeta centrada ===== */
+  .formulario-aficion {
+    padding-bottom: 56px;
+    background: var(--gris-100);
+  }
+
+  .formulario-aficion .cabecera--izquierda {
+    max-width: 680px;
+    height: auto;
+    margin: 0 auto;
+    padding: 28px var(--margen) 12px;
+  }
+
+  .formulario-aficion > .contenedor {
+    max-width: 680px;
+    padding: 36px 48px 40px;
+    border-radius: 32px;
+    background: var(--blanco);
+    box-shadow: 0 10px 40px rgba(21, 31, 54, 0.06);
+  }
+
+  .formulario-aficion .barra-inferior {
+    padding-top: 8px;
+  }
+
+  /* ===== Fichas en dos columnas: tarjeta a la izquierda, información a la derecha ===== */
+  .detalle:target,
+  .ficha:target,
+  .perfil:target {
+    display: grid;
+  }
+
+  .detalle,
+  .ficha,
+  .perfil {
+    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    align-content: start;
+    align-items: start;
+    column-gap: 32px;
+  }
+
+  .pantalla.detalle,
+  .pantalla.ficha,
+  .pantalla.perfil {
+    padding: 32px 48px 56px calc(var(--menu) + 48px);
+  }
+
+  /* Tarjeta de la izquierda */
+  .detalle__cabecera,
+  .ficha__cabecera {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 28px 0 32px;
+    border-radius: 28px;
+  }
+
+  .detalle .detalle__cabecera > .contenedor,
+  .ficha__cabecera > .contenedor {
+    max-width: none;
+    padding: 0 28px;
+  }
+
+  .detalle__nombre {
+    font-size: 44px;
+  }
+
+  /* Información de la derecha */
+  .detalle .detalle__cuerpo,
+  .ficha .ficha__cuerpo,
+  .perfil .ficha__cuerpo {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    max-width: 900px;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Botones de acción debajo de la tarjeta */
+  .detalle .barra-inferior,
+  .ficha .barra-inferior {
+    grid-column: 1;
+    grid-row: 2;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 0 0;
+  }
+
+  .detalle .barra-inferior .boton,
+  .ficha .barra-inferior .boton {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Mi perfil: el botón "Editar perfil" ocupa el ancho de la tarjeta */
+  .perfil .ficha__cabecera .boton {
+    align-self: stretch;
+  }
+
+  .perfil .forma--cabecera {
+    right: -120px;
+  }
+
+  .perfil .rejilla-listas {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+
+  /* ===== Explorar: resultados a la izquierda y tendencias a la derecha ===== */
+  .explorar > .contenedor {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    align-items: start;
+    column-gap: 32px;
+  }
+
+  .explorar > .contenedor > * {
+    grid-column: 1 / -1;
+  }
+
+  .explorar .bloque--resultados {
+    grid-column: 1;
+    grid-row: 5;
+  }
+
+  .explorar #bloque-tendencias {
+    grid-column: 2;
+    grid-row: 5;
+  }
+
+  /* Si estás buscando, no hay tendencias: los resultados ocupan todo */
+  .explorar > .contenedor:has(#bloque-tendencias[hidden]) .bloque--resultados {
+    grid-column: 1 / -1;
+  }
+
+  .explorar .rejilla-personas {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+
+  /* Títulos de las pantallas principales un poco más grandes */
+  .lista-cabecera {
+    padding-top: 48px;
+  }
+
+  .lista-cabecera .titulo-manuscrito {
+    font-size: 44px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .detalle,
+  .ficha,
+  .perfil {
+    grid-template-columns: 340px minmax(0, 1fr);
+  }
+
+  .explorar > .contenedor {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .onboarding .barra-inferior {
+    max-width: 1120px;
+  }
+
+  .detalle,
+  .ficha,
+  .perfil {
+    grid-template-columns: 380px minmax(0, 1fr);
+  }
+}
+
+
+/* ---------- 8. WEB: MÁS COLOR Y MÁS GRANDE (1024 px o más) ----------
+   Esta sección solo cambia la versión de ordenador; el móvil se queda igual.
+   Ideas:
+   - Los COLORES BASE (gris 900, amarillo, turquesa y azul) se usan en zonas
+     grandes: menú lateral, cabeceras de cada pantalla y paneles.
+   - Las tarjetas siguen siendo blancas: así hay color sin que se sature.
+   - Las FORMAS de tu Figma (img/forma-*.svg) salen más grandes y en más sitios.
+   - Todo un poco más grande: títulos, tarjetas, avatares y márgenes. */
+@media (min-width: 1024px) {
+  :root {
+    --menu: 264px;
+    --fondo-web: var(--amarillo-100); /* fondo cálido en lugar de gris */
+    --radio-web: 28px;
+    --hueco: 48px; /* margen a los lados del contenido */
+  }
+
+  /* ===== Fondo de todas las pantallas con menú ===== */
+  .pantalla:has(> .navegacion),
+  .formulario-aficion,
+  .formulario-pantalla,
+  .onboarding {
+    background: var(--fondo-web);
+  }
+
+  /* ===== Menú lateral oscuro ===== */
+  .navegacion,
+  .navegacion.navegacion--escritorio {
+    gap: 6px;
+    padding: 40px 20px;
+    overflow: hidden;
+    border-right: 0;
+    background: var(--gris-900);
+  }
+
+  .navegacion::before {
+    padding: 0 14px 36px;
+    font-size: 36px;
+    color: var(--amarillo-500);
+  }
+
+  /* Forma azul grande asomando por abajo del menú */
+  .navegacion::after {
+    content: "";
+    position: absolute;
+    left: -70px;
+    bottom: -60px;
+    width: 320px;
+    height: 250px;
+    background: url("../img/forma-azul.svg") no-repeat center / contain;
+    pointer-events: none;
+  }
+
+  .navegacion__item {
+    position: relative;
+    z-index: 1;
+    padding: 14px 18px;
+    border-radius: var(--radio-pildora);
+    font-size: 17px;
+    color: var(--gris-300);
+  }
+
+  .navegacion__item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--blanco);
+  }
+
+  .navegacion__item--activo,
+  .navegacion__item--activo:hover {
+    background: var(--amarillo-500);
+    color: var(--gris-900);
+  }
+
+  /* ===== Contenido más ancho y con más aire ===== */
+  .pantalla:has(> .navegacion) > .contenedor {
+    max-width: 1180px;
+    padding: 0 var(--hueco);
+  }
+
+  .seccion-titulo h3,
+  .bloque__titulo {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  /* ===== Cabecera de color en Aficiones, Explorar y Amigos =====
+     El título va dentro de una franja grande de color con una forma de tu Figma */
+  .lista-cabecera {
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    margin: 36px 0 8px;
+    padding: 44px 48px;
+    border-radius: var(--radio-web);
+  }
+
+  .lista-cabecera > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .lista-cabecera::after {
+    content: "";
+    position: absolute;
+    top: -70px;
+    right: 90px;
+    width: 300px;
+    height: 240px;
+    background: no-repeat center / contain;
+    pointer-events: none;
+  }
+
+  .lista-cabecera .titulo-manuscrito {
+    font-size: 60px;
+  }
+
+  .lista-cabecera__contador {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gris-700);
+  }
+
+  .lista-cabecera .boton-redondo {
+    width: 64px;
+    height: 64px;
+    font-size: 34px;
+  }
+
+  /* Mis aficiones: amarillo con forma azul */
+  .mis-aficiones .lista-cabecera { background: var(--amarillo-500); }
+  .mis-aficiones .lista-cabecera::after { background-image: url("../img/forma-azul.svg"); }
+
+  /* Explorar: turquesa con forma amarilla */
+  .explorar .lista-cabecera { background: var(--turquesa-300); }
+  .explorar .lista-cabecera::after { background-image: url("../img/forma-amarilla.svg"); right: 60px; width: 200px; }
+
+  /* Amigos: azul con forma verde y texto blanco */
+  .amigos .lista-cabecera { background: var(--azul-500); }
+  .amigos .lista-cabecera::after { background-image: url("../img/forma-verde.svg"); top: -40px; }
+  .amigos .lista-cabecera .titulo-manuscrito,
+  .amigos .lista-cabecera__contador { color: var(--blanco); }
+  .amigos .lista-cabecera .boton-redondo {
+    background: var(--amarillo-500);
+    color: var(--gris-900);
+    box-shadow: none;
+  }
+
+  /* Buscadores grandes y blancos */
+  .pantalla:has(> .navegacion) .campo--buscador {
+    height: 58px;
+    margin-top: 24px;
+    border: 0;
+    background: var(--blanco);
+    box-shadow: 0 6px 20px rgba(21, 31, 54, 0.07);
+  }
+
+  .chip {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+
+  /* ===== Paneles blancos para los bloques de información ===== */
+  .ficha__cuerpo > .bloque,
+  .ficha__cuerpo > section,
+  .amigos .bloque,
+  .detalle__cuerpo > .tarjeta,
+  .ficha__cuerpo > .tarjeta {
+    padding: 26px 28px;
+    border: 0;
+    border-radius: var(--radio-web);
+    background: var(--blanco);
+    box-shadow: 0 8px 28px rgba(21, 31, 54, 0.06);
+  }
+
+  /* ===== INICIO ===== */
+  .inicio .contenedor.inicio__cuerpo {
+    max-width: 1180px;
+    padding: 36px var(--hueco) 0;
+    gap: 36px;
+  }
+
+  /* Cabecera clara: saludo grande y la forma turquesa más grande */
+  .inicio__cabecera {
+    padding: 44px 0 0;
+  }
+
+  .inicio__cabecera .contenedor {
+    max-width: 1180px;
+    padding: 0 var(--hueco);
+  }
+
+  .inicio__forma {
+    top: -170px;
+    right: -60px;
+    width: 340px;
+    height: 340px;
+    border-radius: 120px;
+  }
+
+  .inicio__cabecera .titulo-manuscrito {
+    font-size: 52px;
+  }
+
+  .inicio__ubicacion {
+    font-size: 16px;
+  }
+
+  .avatar--yo {
+    width: 64px;
+    height: 64px;
+    font-size: 24px;
+  }
+
+  /* Resumen: tres fichas de color sólido */
+  .inicio .resumen {
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .inicio .resumen__dato {
+    padding: 18px 20px;
+    border: 0;
+    border-radius: 22px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gris-900);
+    transition: transform 0.15s;
+  }
+
+  .inicio .resumen__dato:hover {
+    transform: translateY(-3px);
+  }
+
+  .inicio .resumen li:nth-child(1) .resumen__dato { background: var(--amarillo-500); }
+  .inicio .resumen li:nth-child(2) .resumen__dato { background: var(--turquesa-500); }
+  .inicio .resumen li:nth-child(3) .resumen__dato { background: var(--musica-300); }
+
+  .inicio .resumen li:nth-child(n) strong {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--gris-900);
+  }
+
+  /* Rejilla de Inicio: la cartelera ocupa todo el ancho arriba;
+     debajo, tus planes y la gente afín a la izquierda y tendencias a la derecha */
+  .inicio__cuerpo > .cartelera {
+    grid-column: 1 / -1;
+  }
+
+  .inicio__cuerpo > section:last-child {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+  }
+
+  .cartelera__titulo {
+    font-size: 44px;
+  }
+
+  .carteles {
+    gap: 18px;
+    margin: 20px 0 0;
+    padding: 4px 0 12px;
+    scroll-padding: 0;
+  }
+
+  .cartel {
+    flex-basis: 270px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .cartel:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 26px rgba(21, 31, 54, 0.12);
+  }
+
+  .inicio__cuerpo {
+    grid-template-columns: minmax(0, 1fr) 360px;
+  }
+
+  .inicio__cuerpo .carrusel {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+  }
+
+  /* ===== Tarjetas de persona más grandes ===== */
+  .persona {
+    border: 0;
+    border-radius: 24px;
+    box-shadow: 0 8px 24px rgba(21, 31, 54, 0.07);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .persona:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(21, 31, 54, 0.12);
+  }
+
+  .persona__enlace {
+    gap: 8px;
+    padding: 22px 20px;
+  }
+
+  .persona__enlace:hover {
+    box-shadow: none;
+  }
+
+  .persona .avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 24px;
+  }
+
+  .persona__nombre {
+    font-size: 19px;
+  }
+
+  .persona__barrio,
+  .persona__aficiones {
+    font-size: 14px;
+  }
+
+  .persona__afinidad {
+    font-size: 13px;
+  }
+
+  /* ===== Tendencias: panel oscuro con los números de color ===== */
+  .tendencias {
+    border: 0;
+    border-radius: var(--radio-web);
+    background: var(--gris-900);
+    color: var(--blanco);
+    box-shadow: 0 12px 30px rgba(21, 31, 54, 0.18);
+  }
+
+  .tendencias li + li .tendencia {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .tendencia {
+    padding: 18px 22px;
+  }
+
+  button.tendencia:hover {
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .tendencia__puesto {
+    width: 40px;
+    height: 40px;
+    color: var(--gris-900);
+  }
+
+  .tendencia__texto {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .tendencia__texto small {
+    font-size: 13px;
+    color: var(--gris-300);
+  }
+
+  .tendencia__flecha {
+    color: var(--turquesa-500);
+  }
+
+  /* El bloque de tendencias se queda quieto al bajar */
+  .inicio__cuerpo > section:last-child,
+  .explorar #bloque-tendencias {
+    position: sticky;
+    top: 28px;
+  }
+
+  /* ===== MIS AFICIONES ===== */
+  .lista-aficiones {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+    margin-top: 28px;
+  }
+
+  .tarjeta-aficion {
+    min-height: 112px;
+    padding: 22px 24px;
+    border: 0;
+    border-left: 10px solid var(--cat-500);
+    border-radius: 24px;
+    background: color-mix(in srgb, var(--cat-300) 45%, var(--blanco));
+    box-shadow: 0 8px 24px rgba(21, 31, 54, 0.06);
+  }
+
+  .tarjeta-aficion:hover {
+    transform: translateY(-3px);
+  }
+
+  .tarjeta-aficion__emoticono {
+    width: 58px;
+    height: 58px;
+  }
+
+  .tarjeta-aficion__nombre {
+    font-size: 20px;
+  }
+
+  .tarjeta-aficion__meta {
+    font-size: 14px;
+    color: var(--gris-700);
+  }
+
+  /* ===== EXPLORAR ===== */
+  .explorar > .contenedor {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    column-gap: 40px;
+  }
+
+  .explorar .rejilla-personas {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 18px;
+  }
+
+  .interruptor {
+    font-size: 16px;
+  }
+
+  /* ===== AMIGOS: solicitudes a la izquierda y amigos a la derecha ===== */
+  .amigos > .contenedor {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    align-items: start;
+    gap: 0 28px;
+  }
+
+  .amigos .lista-cabecera { grid-column: 1 / -1; }
+  .amigos #bloque-recibidas { grid-column: 1; }
+  .amigos #bloque-enviadas { grid-column: 1; }
+  .amigos .bloque:not(#bloque-recibidas):not(#bloque-enviadas) {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+  }
+
+  /* Las solicitudes recibidas destacan en turquesa */
+  .amigos #bloque-recibidas {
+    background: var(--turquesa-100);
+    box-shadow: inset 0 0 0 2px var(--turquesa-500);
+  }
+
+  .amigos .lista-personas {
+    grid-template-columns: 1fr;
+  }
+
+  .fila-persona {
+    padding: 14px 16px;
+    border-color: transparent;
+    border-radius: 20px;
+    background: var(--gris-100);
+  }
+
+  .amigos #bloque-recibidas .fila-persona {
+    background: var(--blanco);
+  }
+
+  .fila-persona .avatar--pequeno {
+    width: 52px;
+    height: 52px;
+    font-size: 18px;
+  }
+
+  .fila-persona__textos strong,
+  .fila-persona__textos {
+    font-size: 17px;
+  }
+
+  .fila-persona__textos small {
+    font-size: 13px;
+  }
+
+  .boton-mini {
+    min-height: 40px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+
+  /* ===== FICHAS (persona, perfil, afición y lista) ===== */
+  .pantalla.detalle,
+  .pantalla.ficha,
+  .pantalla.perfil {
+    padding: 40px var(--hueco) 56px calc(var(--menu) + var(--hueco));
+    column-gap: 40px;
+  }
+
+  .detalle__cabecera,
+  .ficha__cabecera {
+    position: sticky;
+    top: 40px;
+    overflow: hidden;
+    padding: 34px 0 40px;
+    border-radius: 32px;
+  }
+
+  .ficha__cabecera .avatar--grande {
+    width: 132px;
+    height: 132px;
+    font-size: 48px;
+  }
+
+  .ficha__nombre {
+    font-size: 48px;
+  }
+
+  .detalle__nombre {
+    font-size: 54px;
+  }
+
+  /* Forma grande dentro de la tarjeta de color (persona, afición y lista) */
+  .ficha:not(.perfil) .ficha__cabecera::after,
+  .detalle__cabecera::after {
+    content: "";
+    position: absolute;
+    right: -60px;
+    bottom: -70px;
+    width: 220px;
+    height: 220px;
+    border-radius: 60px;
+    background: var(--cat-500, var(--amarillo-500));
+    opacity: 0.55;
+    transform: rotate(-24deg);
+    pointer-events: none;
+  }
+
+  .ficha__cabecera > .contenedor,
+  .detalle__cabecera > .contenedor {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Mi perfil: formas más grandes en la tarjeta oscura */
+  .perfil .forma--cabecera {
+    top: -70px;
+    right: -110px;
+    width: 300px;
+  }
+
+  .perfil .ficha__cabecera::after {
+    content: "";
+    position: absolute;
+    left: -50px;
+    bottom: -175px;
+    width: 120px;
+    height: 180px;
+    background: url("../img/forma-amarilla.svg") no-repeat center / contain;
+    pointer-events: none;
+  }
+
+  /* Botón "Editar perfil" en amarillo sólido (en el móvil es semitransparente) */
+  .perfil .boton--amarillo {
+    background: var(--amarillo-500);
+  }
+
+  /* Datos del perfil en fichas de color suave */
+  .resumen--claro {
+    gap: 16px;
+  }
+
+  .resumen--claro .resumen__dato {
+    padding: 22px 24px;
+    border: 0;
+    border-radius: 24px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gris-700);
+  }
+
+  .resumen--claro li:nth-child(1) .resumen__dato { background: var(--amarillo-300); }
+  .resumen--claro li:nth-child(2) .resumen__dato { background: var(--turquesa-100); }
+  .resumen--claro li:nth-child(3) .resumen__dato { background: var(--azul-100); }
+
+  .resumen--claro .resumen__dato strong {
+    font-size: 44px;
+    font-weight: 800;
+  }
+
+  .datos {
+    gap: 16px;
+  }
+
+  .datos__item {
+    padding: 20px 22px;
+    border: 0;
+    border-radius: 22px;
+    background: var(--blanco);
+    box-shadow: 0 8px 24px rgba(21, 31, 54, 0.06);
+  }
+
+  .datos dd {
+    font-size: 18px;
+  }
+
+  .afines {
+    padding: 18px 22px;
+    border-radius: 22px;
+    font-size: 16px;
+  }
+
+  .tarjeta-lista {
+    padding: 20px;
+    border: 0;
+    border-radius: 22px;
+    background: var(--amarillo-100);
+    box-shadow: inset 0 0 0 1.5px var(--amarillo-500);
+  }
+
+  .bloque--cuenta {
+    padding: 20px 28px !important;
+    background: none !important;
+    box-shadow: none !important;
+  }
+
+  /* ===== FORMULARIOS (afición, editar perfil y lista) =====
+     Franja azul arriba con formas, y la tarjeta blanca encima */
+  .formulario-aficion::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: var(--menu);
+    right: 0;
+    height: 300px;
+    background:
+      url("../img/forma-amarilla.svg") no-repeat right 120px top -40px / 150px auto,
+      url("../img/forma-verde.svg") no-repeat left 40px bottom -60px / 140px auto,
+      var(--azul-500);
+  }
+
+  .formulario-aficion .cabecera__volver {
+    color: var(--blanco);
+  }
+
+  .formulario-aficion > .contenedor {
+    max-width: 760px;
+    padding: 44px 56px 48px;
+    border-radius: 36px;
+    box-shadow: 0 20px 50px rgba(21, 31, 54, 0.12);
+  }
+
+  .formulario-aficion .titulo-manuscrito {
+    font-size: 48px;
+  }
+
+  /* ===== ONBOARDING: formas grandes en las esquinas ===== */
+  .onboarding .forma--pequena {
+    display: none;
+  }
+
+  .onboarding::before,
+  .onboarding::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .onboarding::before {
+    top: -60px;
+    right: -60px;
+    width: 340px;
+    height: 270px;
+    background: url("../img/forma-azul.svg") no-repeat center / contain;
+  }
+
+  .onboarding::after {
+    bottom: -40px;
+    left: -60px;
+    width: 220px;
+    height: 220px;
+    background: url("../img/forma-verde.svg") no-repeat center / contain;
+  }
+
+  .onboarding .titulo-manuscrito--mediano {
+    font-size: 56px;
+  }
+
+  .onboarding .subtitulo {
+    font-size: 18px;
+  }
+
+  .onboarding .chip {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+  .onboarding .categoria {
+    padding: 20px 22px;
+    border-radius: 24px;
+  }
+
+  /* ===== BIENVENIDA EN EL ORDENADOR =====
+     Es la misma composición que la Pantalla 1.2 del móvil, pero en grande:
+     todo centrado como un cartel (logo, lema y botones), y las formas
+     enmarcando la pantalla en las esquinas. La única diferencia es que
+     los botones van uno al lado del otro, porque en horizontal hay sitio. */
+  .bienvenida__contenido {
+    justify-content: center; /* centra el bloque en vertical */
+    max-width: 900px;
+    padding: 72px 64px;
+  }
+
+  /* clamp(mínimo, ideal, máximo): el logo se encoge en pantallas bajas
+     (portátiles de 720-768 px de alto) o estrechas, y nunca pasa de 150 px */
+  .bienvenida .logo {
+    font-size: clamp(100px, min(16vh, 11vw), 150px);
+    gap: 10px;
+    text-shadow: 4px 4px 0 var(--gris-300);
+  }
+
+  .bienvenida .logo__linea--derecha {
+    padding-left: 70px; /* "Match" desplazado a la derecha, como en el móvil */
+  }
+
+  .bienvenida .lema {
+    margin-top: clamp(24px, 4.5vh, 44px);
+    font-size: clamp(34px, 5vh, 44px);
+  }
+
+  .bienvenida .lema__oso {
+    width: 86px;
+    height: 158px;
+  }
+
+  /* Botones en fila y centrados */
+  .bienvenida__botones {
+    flex-direction: row;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 0;
+    padding-top: clamp(70px, 12vh, 110px); /* hueco para que el oso no toque los botones */
+  }
+
+  .bienvenida__botones .boton,
+  .bienvenida__botones .boton--amarillo,
+  .bienvenida__botones .boton--turquesa {
+    width: 300px;
+    min-height: 64px;
+    margin: 0; /* quitamos los márgenes "descolocados" del móvil */
+    font-size: 17px;
+  }
+
+  /* En grande los botones no pisan ninguna forma, así que van en color
+     sólido (sin transparencia) para que se vean los colores base */
+  .bienvenida .boton--amarillo { background: var(--amarillo-500); }
+  .bienvenida .boton--turquesa { background: var(--turquesa-500); }
+
+  /* Formas: las tres del Figma, más grandes, en las esquinas */
+  /* El borde derecho de esta forma es recto (en el Figma toca el borde
+     de la pantalla), así que lo sacamos fuera para que no se vea cortado */
+  .bienvenida .forma--azul {
+    top: -60px;
+    right: -80px;
+    width: clamp(300px, 30vw, 440px);
+  }
+
+  .bienvenida .forma--amarilla {
+    left: -40px;
+    bottom: 70px;
+    width: clamp(190px, 17vw, 250px);
+  }
+
+  .bienvenida .forma--turquesa {
+    z-index: 0; /* en el ordenador no tapa los botones */
+    right: -40px;
+    bottom: -150px;
+    width: clamp(260px, 24vw, 340px);
+    height: clamp(360px, 33vw, 470px);
+    border-radius: 100px;
+  }
+
+  /* Una forma lila pequeña arriba a la izquierda para equilibrar la azul */
+  .bienvenida::before {
+    content: "";
+    position: absolute;
+    top: 9%;
+    left: -22px; /* su lado recto queda fuera de la pantalla */
+    width: clamp(80px, 8vw, 110px);
+    height: clamp(116px, 11vw, 160px);
+    background: url("../img/forma-lila.svg") no-repeat center / contain;
+    /* La giramos como un espejo: el lado recto (que estaba a la derecha)
+       pasa a la izquierda y se esconde contra el borde de la pantalla */
+    transform: scaleX(-1);
+    pointer-events: none;
+  }
+
+  /* ===== CREAR USUARIO E INICIAR SESIÓN: pantalla partida =====
+     A la izquierda el panel oscuro con el logo y el oso; a la derecha el formulario */
+  .formulario-pantalla:target {
+    display: grid;
+  }
+
+  .formulario-pantalla {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    padding-bottom: 0;
+  }
+
+  .formulario-pantalla > .forma {
+    display: none;
+  }
+
+  .panel-web {
+    position: relative;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 80px 72px;
+    overflow: hidden;
+    background: var(--gris-900);
+    color: var(--blanco);
+  }
+
+  .panel-web > p {
+    position: relative;
+    z-index: 1;
+  }
+
+  .panel-web__logo {
+    font-size: 110px;
+  }
+
+  .panel-web__lema {
+    align-self: flex-start;
+    margin: 32px 0 0;
+    font-size: 40px;
+    text-align: left;
+  }
+
+  .panel-web__texto {
+    max-width: 330px;
+    margin-top: 140px;
+    font-size: 18px;
+    color: var(--gris-300);
+  }
+
+  .panel-web__forma-azul {
+    top: -60px;
+    right: -80px;
+    width: 380px;
+  }
+
+  .panel-web__forma-amarilla {
+    left: -30px;
+    bottom: -110px;
+    width: 160px;
+  }
+
+  .panel-web__forma-turquesa {
+    right: -120px;
+    bottom: -230px;
+    width: 280px;
+    height: 380px;
+    border-radius: 90px;
+    background: var(--turquesa-500);
+    transform: rotate(-26deg);
+  }
+
+  .formulario-pantalla .cabecera {
+    grid-column: 2;
+    grid-row: 1;
+    height: 110px;
+  }
+
+  .formulario-pantalla .contenedor {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    max-width: 500px;
+    margin: 0 auto 56px;
+    padding: 12px 52px 48px;
+    border-radius: 36px;
+    box-shadow: 0 20px 50px rgba(21, 31, 54, 0.1);
+  }
+
+  .formulario-pantalla .titulo-manuscrito {
+    font-size: 46px;
+  }
+
+  .formulario-pantalla .campo {
+    height: 56px;
+  }
+}
+
+/* Portátiles pequeños (1024–1279 px): menú más estrecho y menos columnas,
+   para que nada quede apretado ni se salga por la derecha */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root {
+    --menu: 220px;
+    --hueco: 28px;
+  }
+
+  .inicio__cuerpo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .inicio__cuerpo > section:last-child {
+    position: static;
+    grid-column: auto; /* una sola columna: tendencias va debajo */
+    grid-row: auto;
+  }
+
+  .explorar > .contenedor {
+    grid-template-columns: minmax(0, 1fr) 270px;
+    column-gap: 24px;
+  }
+
+  .amigos > .contenedor {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .detalle,
+  .ficha,
+  .perfil {
+    grid-template-columns: 270px minmax(0, 1fr);
+  }
+
+  .pantalla.detalle,
+  .pantalla.ficha,
+  .pantalla.perfil {
+    column-gap: 28px;
+  }
+
+  .resumen--claro .resumen__dato,
+  .datos__item {
+    padding: 16px;
+  }
+
+  .navegacion::before {
+    font-size: 30px;
+  }
+
+  .panel-web {
+    padding: 64px 48px;
+  }
+
+  .panel-web__logo {
+    font-size: 88px;
+  }
+
+  .formulario-pantalla .contenedor {
+    padding: 12px 36px 40px;
+  }
+}
+
+/* En pantallas muy anchas, todo un poco más grande */
+@media (min-width: 1440px) {
+  .panel-web__logo {
+    font-size: 140px;
+  }
+
+  .explorar > .contenedor {
+    grid-template-columns: minmax(0, 1fr) 360px;
+  }
+}
+
+
+/* =========================================================
+   MASCOTAS (js/mascotas.js)
+   Oso, gato, ardilla o cotorra: crece con las quedadas.
+   ========================================================= */
+
+/* El dibujo es un SVG cuadrado; el tamaño lo pone cada sitio donde se usa */
+.mascota {
+  display: block;
+  flex-shrink: 0;
+  width: 54px;
+  aspect-ratio: 1;
+}
+
+.mascota svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mascota--grande {
+  width: 116px;
+}
+
+.mascota--dialogo {
+  width: 190px;
+  margin: 0 auto;
+}
+
+/* --- Elegir mascota (onboarding y Editar perfil) --- */
+.opciones-mascota {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.opciones-mascota input {
+  position: fixed; /* igual que los chips: así la pantalla no salta al elegir */
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opcion-mascota {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 14px 10px 16px;
+  border: 1px solid var(--gris-300);
+  border-radius: 24px;
+  background: var(--blanco);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.opcion-mascota:hover {
+  transform: translateY(-2px);
+}
+
+.opcion-mascota__dibujo {
+  width: min(130px, 100%);
+}
+
+.opcion-mascota__nombre {
+  font-family: var(--fuente-manuscrita, "Mansalva", cursive);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--gris-900);
+}
+
+.opcion-mascota__lema {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gris-700);
+}
+
+/* Elegida: borde azul y un círculo con ✓ arriba a la derecha */
+.opciones-mascota input:checked + .opcion-mascota {
+  border: 3px solid var(--azul-500);
+  padding: 12px 8px 14px;
+}
+
+.opciones-mascota input:checked + .opcion-mascota::after {
+  content: "✓";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--azul-500);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blanco);
+}
+
+.opciones-mascota input:focus-visible + .opcion-mascota {
+  outline: 3px solid var(--azul-300);
+  outline-offset: 2px;
+}
+
+/* En Editar perfil van en fila de 4 y más pequeñas */
+.opciones-mascota--pequenas {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.opciones-mascota--pequenas .opcion-mascota {
+  padding: 8px 4px 10px;
+  border-radius: 18px;
+}
+
+.opciones-mascota--pequenas input:checked + .opcion-mascota {
+  padding: 6px 2px 8px;
+}
+
+.opciones-mascota--pequenas .opcion-mascota__nombre {
+  font-size: 18px;
+}
+
+.opciones-mascota--pequenas .opcion-mascota__lema {
+  display: none;
+}
+
+.opciones-mascota--pequenas input:checked + .opcion-mascota::after {
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+}
+
+/* --- Tarjeta del perfil --- */
+.tarjeta-mascota {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--gris-300);
+  border-radius: 28px;
+  background: var(--blanco);
+}
+
+.tarjeta-mascota__principal {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tarjeta-mascota__datos {
+  display: grid;
+  flex: 1;
+  gap: 6px;
+  min-width: 0;
+}
+
+.tarjeta-mascota__nivel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gris-500);
+}
+
+.tarjeta-mascota__nombre {
+  font-family: var(--fuente-manuscrita, "Mansalva", cursive);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--gris-900);
+}
+
+/* Barra de progreso (etiqueta nativa <progress>) con los colores de la app */
+.tarjeta-mascota__barra {
+  width: 100%;
+  height: 10px;
+  border: 0;
+  border-radius: var(--radio-pildora, 99px);
+  overflow: hidden;
+  background: var(--gris-100);
+  appearance: none;
+}
+
+.tarjeta-mascota__barra::-webkit-progress-bar {
+  background: var(--gris-100);
+}
+
+.tarjeta-mascota__barra::-webkit-progress-value {
+  border-radius: 99px;
+  background: var(--turquesa-500);
+}
+
+.tarjeta-mascota__barra::-moz-progress-bar {
+  border-radius: 99px;
+  background: var(--turquesa-500);
+}
+
+.tarjeta-mascota__texto {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--gris-700);
+}
+
+/* Los 5 niveles en pequeño */
+.mascota-niveles {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mascota-niveles__item .mascota {
+  width: clamp(44px, 13vw, 60px);
+}
+
+.mascota-niveles__item--bloqueado {
+  opacity: 0.25;
+  filter: grayscale(1);
+}
+
+.mascota-niveles__item--actual .mascota {
+  transform: scale(1.12);
+}
+
+/* --- Ficha de otra persona --- */
+.chip-mascota {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 4px 14px 4px 4px;
+  border-radius: var(--radio-pildora, 99px);
+  background: var(--blanco);
+  text-align: left;
+}
+
+.chip-mascota:empty {
+  display: none;
+}
+
+.chip-mascota__dibujo {
+  width: 40px;
+}
+
+.chip-mascota__textos {
+  display: grid;
+  line-height: 1.25;
+}
+
+.chip-mascota__textos strong {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gris-900);
+}
+
+.chip-mascota__textos small {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gris-700);
+}
+
+/* --- Aviso al subir de nivel --- */
+.dialogo-mascota__nivel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--azul-500);
+}
+
+/* --- Tablet y ordenador --- */
+@media (min-width: 768px) {
+  .opciones-mascota {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .mascota--grande {
+    width: 140px;
+  }
+
+  .tarjeta-mascota__nombre {
+    font-size: 30px;
+  }
+
+  .mascota-niveles {
+    justify-content: flex-start;
+    gap: 14px;
+  }
+
+  .mascota-niveles__item .mascota {
+    width: 60px;
+  }
+}

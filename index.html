@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- Hace que la web se adapte al ancho del móvil -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HobbyMatch · Comparte aficiones por Madrid</title>
+  <meta name="description" content="Encuentra gente en Madrid con tus mismas aficiones.">
+
+  <!-- Tipografías del sistema de diseño: Manrope (textos) y Mansalva (títulos manuscritos) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Mansalva&display=swap" rel="stylesheet">
+
+  <!-- Hoja de estilos (separada del HTML) -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!--
+    ICONOS REUTILIZABLES
+    Definimos cada icono una sola vez como <symbol> y luego lo usamos con <use href="#id">.
+    Así no repetimos el mismo SVG en cada pantalla.
+  -->
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-oso" viewBox="0 0 235 433"><path fill="currentColor" d="M79 0C77.5 0.3 77.5 0.0 76 2C74.5 5.8 71.0 18.2 70 23C69.0 27.8 69.5 28.7 70 31C70.5 33.3 70.7 34.0 73 37C75.3 40.0 82.0 45.3 84 49C86.0 52.7 86.7 54.0 85 59C83.3 64.0 76.0 70.8 74 79C72.0 87.2 73.5 102.2 73 108C72.5 113.8 72.8 110.5 71 114C69.2 117.5 65.2 124.7 62 129C58.8 133.3 54.7 135.7 52 140C49.3 144.3 47.5 152.2 46 155C44.5 157.8 46.8 157.5 43 157C39.2 156.5 28.8 154.5 23 152C17.2 149.5 11.7 143.3 8 142C4.3 140.7 2.3 133.0 1 144C0.0 155.0 0.0 196.5 0 208C0.8 219.5 1.2 211.3 6 213C10.8 214.7 23.8 216.3 29 218C34.2 219.7 33.2 221.5 37 223C40.8 224.5 48.5 225.3 52 227C55.5 228.7 56.7 230.3 58 233C59.3 235.7 58.5 239.5 60 243C61.5 246.5 65.7 251.2 67 254C68.3 256.8 66.7 258.0 68 260C69.3 262.0 73.7 263.8 75 266C76.3 268.2 74.7 270.5 76 273C77.3 275.5 80.7 277.0 83 281C85.3 285.0 85.5 290.8 90 297C94.5 303.2 106.5 312.5 110 318C113.5 323.5 112.8 322.8 111 330C109.2 337.2 101.2 354.0 99 361C96.8 368.0 97.3 368.0 98 372C98.7 376.0 101.3 381.8 103 385C104.7 388.2 106.7 387.7 108 391C109.3 394.3 108.0 398.8 111 405C114.0 411.2 122.5 423.5 126 428C129.5 432.5 115.8 431.3 132 432C148.2 432.7 206.2 433.0 223 432C235.0 430.7 231.2 426.2 233 424C234.8 421.8 235.0 421.5 234 419C232.7 416.5 227.3 412.8 225 409C222.7 405.2 222.7 401.0 220 396C217.3 391.0 210.8 382.7 209 379C207.2 375.3 207.8 376.0 209 374C210.2 372.0 213.3 372.0 216 367C218.7 362.0 223.5 350.5 225 344C226.5 337.5 224.5 331.8 225 328C225.5 324.2 227.7 326.2 228 321C228.3 315.8 231.2 310.5 227 297C222.8 283.5 212.5 257.5 203 240C193.5 222.5 175.8 201.2 170 192C164.2 182.8 168.0 190.7 168 185C168.0 179.3 170.3 164.5 170 158C169.7 151.5 168.5 151.2 166 146C163.5 140.8 156.8 132.0 155 127C153.2 122.0 154.2 122.3 155 116C155.8 109.7 159.2 96.8 160 89C160.8 81.2 159.3 73.2 160 69C160.7 64.8 162.0 65.5 164 64C166.0 62.5 170.5 63.0 172 60C173.5 57.0 173.2 48.8 173 46C172.8 43.2 172.7 43.8 171 43C169.3 42.2 166.5 43.8 163 41C159.5 38.2 155.2 30.5 150 26C144.8 21.5 136.7 16.5 132 14C127.3 11.5 125.8 11.2 122 11C118.2 10.8 115.2 14.8 109 13C102.8 11.2 90.0 2.2 85 0C80.0 0.0 80.5 0.0 79 0Z"/></symbol>
+    <symbol id="i-volver" viewBox="0 0 24 24"><path d="M20 12H4m0 0 6-6m-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-usuario" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g></symbol>
+    <symbol id="i-correo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></g></symbol>
+    <symbol id="i-candado" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.2" fill="currentColor"/></g></symbol>
+    <symbol id="i-ojos" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="8" cy="12" rx="4" ry="5.5"/><ellipse cx="16" cy="12" rx="4" ry="5.5"/></g><circle cx="9" cy="13" r="1.5" fill="currentColor"/><circle cx="17" cy="13" r="1.5" fill="currentColor"/></symbol>
+    <symbol id="i-buscar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></g></symbol>
+    <symbol id="i-inicio" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-explorar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></g></symbol>
+    <symbol id="i-corazon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-amigos" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14a5 5 0 0 1 5.5 6"/></g></symbol>
+    <symbol id="i-perfil" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g></symbol>
+    <!-- EMOTICONOS PROPIOS DE HOBBYMATCH (48 × 48)
+         Todos siguen la misma receta: forma blanda de fondo con el color claro
+         de su categoría, dibujo con trazo gris-900 y relleno con el color base.
+         Se usan con <svg class="emoticono"><use href="#e-nombre"/></svg>
+         o con la función emoticono("nombre") de app.js. -->
+    <!-- Categorías -->
+    <symbol id="e-deportes" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--deportes-300)"/><g transform="translate(3 2) rotate(-35 23 26) scale(0.9) translate(2.5 4)"><path d="M23 29v4" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="21" y="32.5" width="4" height="9" rx="2" style="fill:var(--deportes-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="7" width="18" height="22" rx="9" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="14" r="1.1" style="fill:var(--gris-900)"/><circle cx="26" cy="14" r="1.1" style="fill:var(--gris-900)"/><circle cx="23" cy="18.5" r="1.1" style="fill:var(--gris-900)"/><circle cx="20" cy="23" r="1.1" style="fill:var(--gris-900)"/><circle cx="26" cy="23" r="1.1" style="fill:var(--gris-900)"/></g><circle cx="35" cy="15" r="3.8" style="fill:var(--deportes-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="e-videojuegos" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--videojuegos-300)"/><path d="M15 17h18a7 7 0 0 1 7 6.5l.8 7.5a4.2 4.2 0 0 1-7.4 3.1L30.5 30h-13l-2.9 4.1A4.2 4.2 0 0 1 7.2 31L8 23.5A7 7 0 0 1 15 17z" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 21.5v6M13 24.5h6" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="31" cy="22.5" r="2" style="fill:var(--videojuegos-500);stroke:var(--gris-900)" stroke-width="1.6"/><circle cx="34.5" cy="26.5" r="2" style="fill:var(--videojuegos-500);stroke:var(--gris-900)" stroke-width="1.6"/></symbol>
+    <symbol id="e-gastronomia" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--gastronomia-300)"/><path d="M8 30.5h32c0 4.5-6.5 7-16 7s-16-2.5-16-7z" style="fill:var(--gastronomia-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="14.5" cy="27" rx="5" ry="3" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="24" cy="27.5" rx="5" ry="3" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="33.5" cy="27" rx="5" ry="3" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 24c1-6.5 8-10 16-10s15 3.5 16 10z" style="fill:var(--gastronomia-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 18.5l2 2M23 17l1.5 2.5M29 18l1.5 2" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="e-arte" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--arte-300)"/><path d="M24 9C14.5 9 8 15.5 8 23.5S14 38 22 38c3 0 4-1.8 3.2-3.8-.9-2.3.6-4.2 3-4.2H33c4.4 0 7-3 7-6.6C40 15.5 33 9 24 9z" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="22" r="2.6" style="fill:var(--moda-500)"/><circle cx="21.5" cy="15.5" r="2.6" style="fill:var(--cine-500)"/><circle cx="29.5" cy="16" r="2.6" style="fill:var(--deportes-500)"/><circle cx="16.5" cy="30" r="2.6" style="fill:var(--arte-500);stroke:var(--gris-900)" stroke-width="1.4"/></symbol>
+    <symbol id="e-musica" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--musica-300)"/><path d="M19 32.5V15.5l16-3.5v17" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M19 20l16-3.5" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><ellipse cx="15" cy="32.5" rx="4.5" ry="3.6" style="fill:var(--musica-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="31" cy="29" rx="4.5" ry="3.6" style="fill:var(--musica-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="e-cine" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--cine-300)"/><rect x="10" y="21" width="28" height="17" rx="3" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><g transform="rotate(-14 10 20)"><rect x="10" y="13" width="28" height="7" rx="2" style="fill:var(--cine-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 13l-3 7M24 13l-3 7M31 13l-3 7" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g><path d="M15 27.5h12M15 32h7" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="e-juegos" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--juegos-300)"/><g transform="rotate(-12 24 24)"><rect x="12" y="12" width="24" height="24" rx="6" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="18.5" cy="18.5" r="2.3" style="fill:var(--juegos-500);stroke:var(--gris-900)" stroke-width="1.4"/><circle cx="24" cy="24" r="2.3" style="fill:var(--juegos-500);stroke:var(--gris-900)" stroke-width="1.4"/><circle cx="29.5" cy="29.5" r="2.3" style="fill:var(--juegos-500);stroke:var(--gris-900)" stroke-width="1.4"/></g></symbol>
+    <symbol id="e-viajes" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--viajes-300)"/><path d="M19 17v-3a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="11" y="17" width="26" height="19" rx="4" style="fill:var(--viajes-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 17v19M31 17v19" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="24" cy="26.5" r="3.6" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="1.8"/><path d="M15 38.5v1M33 38.5v1" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="e-cultura" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--cultura-300)"/><path d="M24 9l15 7H9z" style="fill:var(--cultura-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="16" width="30" height="5" rx="1" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 21h28v15H10z" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 36v-7a4 4 0 0 1 8 0v7z" style="fill:var(--gris-900)"/><path d="M12.5 36v-5a2.5 2.5 0 0 1 5 0v5zM30.5 36v-5a2.5 2.5 0 0 1 5 0v5z" style="fill:var(--gris-900)"/><path d="M7.5 37.5h33" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="e-animales" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--animales-300)"/><path d="M24 23c-5 0-9 6-9 9.5 0 3 2.5 4.5 5 4 1.6-.3 2.6-1 4-1s2.4.7 4 1c2.5.5 5-1 5-4 0-3.5-4-9.5-9-9.5z" style="fill:var(--animales-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="13" cy="21" rx="3" ry="3.8" style="fill:var(--animales-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="19.5" cy="14.5" rx="3" ry="4" style="fill:var(--animales-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="28.5" cy="14.5" rx="3" ry="4" style="fill:var(--animales-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="35" cy="21" rx="3" ry="3.8" style="fill:var(--animales-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="e-moda" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--moda-300)"/><path d="M18.5 11L10 15.5l3 7 3.5-1.5V37h15V21l3.5 1.5 3-7-8.5-4.5c-.7 2.8-3 4.5-5.5 4.5s-4.8-1.7-5.5-4.5z" style="fill:var(--moda-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 27h6" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <!-- App -->
+    <symbol id="e-barrio" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--azul-100)"/><path d="M24 41s-12-10.5-12-20a12 12 0 0 1 24 0c0 9.5-12 20-12 20z" style="fill:var(--azul-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.5 22.5L24 18l5.5 4.5V28h-11z" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="e-tendencia" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--amarillo-300)"/><path d="M24 7c1.5 6 10 9.5 10 19a10 10 0 0 1-20 0c0-5 2.5-7.5 4-11 1 3 2.5 4.5 2.5 4.5S19 12 24 7z" style="fill:var(--moda-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 26l0 9M20 29.5l4-4 4 4" style="stroke:var(--blanco)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="e-afinidad" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--turquesa-100)"/><circle cx="19" cy="24" r="10" style="fill:var(--turquesa-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="24" r="10" style="fill:var(--amarillo-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 15.34A10 10 0 0 1 24 32.66A10 10 0 0 1 24 15.34Z" style="fill:var(--moda-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="e-amigos" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--amarillo-100)"/><path d="M8 36c0-8 3-15 9.5-15S27 28 27 36z" style="fill:var(--turquesa-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 36c0-9 3.5-17 11-17s9 8 9 17z" style="fill:var(--amarillo-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14.5" cy="28" r="1.3" style="fill:var(--gris-900)"/><circle cx="19.5" cy="28" r="1.3" style="fill:var(--gris-900)"/><circle cx="29" cy="26" r="1.3" style="fill:var(--gris-900)"/><circle cx="35" cy="26" r="1.3" style="fill:var(--gris-900)"/><path d="M30 30c1.2 1.3 3 1.3 4.2 0" style="stroke:var(--gris-900)" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="e-solicitud" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--musica-300)"/><rect x="9" y="14" width="30" height="21" rx="3.5" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 16l14 10 14-10" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M24 36.5s-6-3.6-6-7.6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.6-6 7.6z" style="fill:var(--moda-500);stroke:var(--gris-900)" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="e-plan" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--viajes-300)"/><rect x="10" y="13" width="28" height="25" rx="4" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 19.5h28" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M17 10v6M31 10v6" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M18.5 29l3.5 3.5 7.5-7.5" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="e-guardado" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--azul-300)"/><path d="M15 9h18a2 2 0 0 1 2 2v28l-11-7-11 7V11a2 2 0 0 1 2-2z" style="fill:var(--azul-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 15l1.9 3.9 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z" style="fill:var(--blanco)"/></symbol>
+    <symbol id="e-borrar" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--gris-300)"/><path d="M14 17h20l-2 20a2.5 2.5 0 0 1-2.5 2.3h-11A2.5 2.5 0 0 1 16 37z" style="fill:var(--blanco);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 17h26M20 17v-3.5h8V17" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M20.5 27.5l2 -1.5M27.5 27.5l-2-1.5M21 33c1.8-1.5 4.2-1.5 6 0" style="stroke:var(--gris-900)" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="e-alcance" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--turquesa-100)"/><circle cx="24" cy="24" r="15" fill="none" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-dasharray="3 4" stroke-linecap="round"/><circle cx="24" cy="24" r="9" style="fill:var(--turquesa-300);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="24" r="3.2" style="fill:var(--turquesa-700);stroke:var(--gris-900)" stroke-width="1.8"/></symbol>
+    <symbol id="e-oso" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--cultura-300)"/><g transform="translate(13.5 6) scale(0.086)"><path d="M79 0C77.5 0.3 77.5 0.0 76 2C74.5 5.8 71.0 18.2 70 23C69.0 27.8 69.5 28.7 70 31C70.5 33.3 70.7 34.0 73 37C75.3 40.0 82.0 45.3 84 49C86.0 52.7 86.7 54.0 85 59C83.3 64.0 76.0 70.8 74 79C72.0 87.2 73.5 102.2 73 108C72.5 113.8 72.8 110.5 71 114C69.2 117.5 65.2 124.7 62 129C58.8 133.3 54.7 135.7 52 140C49.3 144.3 47.5 152.2 46 155C44.5 157.8 46.8 157.5 43 157C39.2 156.5 28.8 154.5 23 152C17.2 149.5 11.7 143.3 8 142C4.3 140.7 2.3 133.0 1 144C0.0 155.0 0.0 196.5 0 208C0.8 219.5 1.2 211.3 6 213C10.8 214.7 23.8 216.3 29 218C34.2 219.7 33.2 221.5 37 223C40.8 224.5 48.5 225.3 52 227C55.5 228.7 56.7 230.3 58 233C59.3 235.7 58.5 239.5 60 243C61.5 246.5 65.7 251.2 67 254C68.3 256.8 66.7 258.0 68 260C69.3 262.0 73.7 263.8 75 266C76.3 268.2 74.7 270.5 76 273C77.3 275.5 80.7 277.0 83 281C85.3 285.0 85.5 290.8 90 297C94.5 303.2 106.5 312.5 110 318C113.5 323.5 112.8 322.8 111 330C109.2 337.2 101.2 354.0 99 361C96.8 368.0 97.3 368.0 98 372C98.7 376.0 101.3 381.8 103 385C104.7 388.2 106.7 387.7 108 391C109.3 394.3 108.0 398.8 111 405C114.0 411.2 122.5 423.5 126 428C129.5 432.5 115.8 431.3 132 432C148.2 432.7 206.2 433.0 223 432C235.0 430.7 231.2 426.2 233 424C234.8 421.8 235.0 421.5 234 419C232.7 416.5 227.3 412.8 225 409C222.7 405.2 222.7 401.0 220 396C217.3 391.0 210.8 382.7 209 379C207.2 375.3 207.8 376.0 209 374C210.2 372.0 213.3 372.0 216 367C218.7 362.0 223.5 350.5 225 344C226.5 337.5 224.5 331.8 225 328C225.5 324.2 227.7 326.2 228 321C228.3 315.8 231.2 310.5 227 297C222.8 283.5 212.5 257.5 203 240C193.5 222.5 175.8 201.2 170 192C164.2 182.8 168.0 190.7 168 185C168.0 179.3 170.3 164.5 170 158C169.7 151.5 168.5 151.2 166 146C163.5 140.8 156.8 132.0 155 127C153.2 122.0 154.2 122.3 155 116C155.8 109.7 159.2 96.8 160 89C160.8 81.2 159.3 73.2 160 69C160.7 64.8 162.0 65.5 164 64C166.0 62.5 170.5 63.0 172 60C173.5 57.0 173.2 48.8 173 46C172.8 43.2 172.7 43.8 171 43C169.3 42.2 166.5 43.8 163 41C159.5 38.2 155.2 30.5 150 26C144.8 21.5 136.7 16.5 132 14C127.3 11.5 125.8 11.2 122 11C118.2 10.8 115.2 14.8 109 13C102.8 11.2 90.0 2.2 85 0C80.0 0.0 80.5 0.0 79 0Z" style="fill:var(--cultura-700)"/></g></symbol>
+    <!-- Niveles -->
+    <symbol id="e-principiante" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--viajes-300)"/><path d="M24 38V26" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M24 27c-1-5-5-7-9.5-6.5C15 25 19 28 24 27z" style="fill:var(--deportes-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 30c1-4 4.5-6 8.5-5.5C32 28.5 28.5 30.5 24 30z" style="fill:var(--deportes-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 38.5h16" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="e-intermedio" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--viajes-300)"/><path d="M24 38V16" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M24 24c-1-5-5-7-9.5-6.5C15 22 19 25 24 24z" style="fill:var(--deportes-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 31c1-4 4.5-6 8.5-5.5C32 29.5 28.5 31.5 24 31z" style="fill:var(--deportes-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 18c.8-4 4-6.5 8-6.3C31.5 15.8 28 18.5 24 18z" style="fill:var(--deportes-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 38.5h16" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="e-avanzado" viewBox="0 0 48 48"><path d="M25 3.5C36.5 3.5 45 11.5 44.5 24C44 36.5 35.5 44.5 23.5 44.5C11.5 44.5 3.5 36 3.5 24.5C3.5 12 13 3.5 25 3.5Z" style="fill:var(--viajes-300)"/><path d="M24 38V27" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M24 7c7 0 13 5 13 11.5S31 29 24 29s-13-4-13-10.5S17 7 24 7z" style="fill:var(--deportes-500);stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="18.5" cy="16" r="2.2" style="fill:var(--madrono);stroke:var(--gris-900)" stroke-width="1.4"/><circle cx="28" cy="13.5" r="2.2" style="fill:var(--madrono);stroke:var(--gris-900)" stroke-width="1.4"/><circle cx="30" cy="21.5" r="2.2" style="fill:var(--madrono);stroke:var(--gris-900)" stroke-width="1.4"/><circle cx="22" cy="23" r="2.2" style="fill:var(--madrono);stroke:var(--gris-900)" stroke-width="1.4"/><path d="M16 38.5h16" style="stroke:var(--gris-900)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  </svg>
+
+  <!--
+    CÓMO FUNCIONA LA NAVEGACIÓN
+    Cada pantalla es un <section class="pantalla"> con un id.
+    Un enlace a "#barrio" añade #barrio a la URL y el CSS (:target) muestra esa pantalla.
+    Si la URL no tiene #, se ve la Bienvenida.
+    JavaScript (js/app.js) solo cambia el # cuando hay que validar o guardar datos antes de avanzar.
+  -->
+  <main class="app">
+
+    <!-- ============ 1 · BIENVENIDA (Pantalla 1.2) ============ -->
+    <section class="pantalla pantalla--oscura bienvenida" id="bienvenida" aria-labelledby="titulo-app">
+      <img class="forma forma--azul" src="img/forma-azul.svg" alt="">
+      <img class="forma forma--amarilla" src="img/forma-amarilla.svg" alt="">
+      <span class="forma forma--turquesa" aria-hidden="true"></span>
+
+      <div class="bienvenida__contenido">
+        <h1 class="logo" id="titulo-app">
+          <span class="logo__linea">Hobby</span>
+          <span class="logo__linea logo__linea--derecha">Match</span>
+        </h1>
+
+        <p class="lema">
+          Comparte aficiones<br>
+          por
+          <!-- El oso se "agarra" a la etiqueta Madrid, como el de la estatua al madroño -->
+          <span class="lema__grupo">
+            <mark class="lema__madrid">Madrid</mark>
+            <svg class="lema__oso" aria-hidden="true"><use href="#i-oso"/></svg>
+          </span>
+        </p>
+
+        <div class="bienvenida__botones">
+          <a class="boton boton--amarillo" href="#iniciar-sesion">Iniciar sesión →</a>
+          <a class="boton boton--turquesa" href="#crear-usuario">Crear usuario →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 2 · CREAR USUARIO ============ -->
+    <section class="pantalla formulario-pantalla" id="crear-usuario" aria-labelledby="titulo-crear">
+      <!-- Panel de color: SOLO se ve en el ordenador (en el móvil tiene display: none) -->
+      <aside class="panel-web" aria-hidden="true">
+        <img class="forma panel-web__forma-azul" src="img/forma-azul.svg" alt="">
+        <img class="forma panel-web__forma-amarilla" src="img/forma-amarilla.svg" alt="">
+        <span class="forma panel-web__forma-turquesa"></span>
+        <p class="logo panel-web__logo"><span class="logo__linea">Hobby</span><span class="logo__linea logo__linea--derecha">Match</span></p>
+        <p class="lema panel-web__lema">Comparte aficiones<br>por <span class="lema__grupo"><mark class="lema__madrid">Madrid</mark><svg class="lema__oso"><use href="#i-oso"/></svg></span></p>
+        <p class="panel-web__texto">Crea tu cuenta en un minuto y descubre quién comparte tus aficiones en tu barrio.</p>
+      </aside>
+
+      <img class="forma forma--lila" src="img/forma-lila.svg" alt="">
+      <img class="forma forma--verde" src="img/forma-verde.svg" alt="">
+
+      <header class="cabecera">
+        <a class="cabecera__volver" href="#bienvenida" aria-label="Volver">
+          <svg><use href="#i-volver"/></svg>
+        </a>
+        <p class="cabecera__titulo">Hobby Match</p>
+      </header>
+
+      <div class="contenedor">
+        <h2 class="titulo-manuscrito" id="titulo-crear">
+          Crear Usuario <img class="rayitas" src="img/rayitas.svg" alt="">
+        </h2>
+
+        <form class="formulario" id="form-registro" novalidate>
+          <label class="campo">
+            <svg class="campo__icono"><use href="#i-usuario"/></svg>
+            <span class="sr-only">Nombre</span>
+            <input type="text" name="nombre" placeholder="Nombre" autocomplete="given-name" required>
+          </label>
+
+          <label class="campo">
+            <svg class="campo__icono"><use href="#i-correo"/></svg>
+            <span class="sr-only">Correo electrónico</span>
+            <input type="email" name="correo" placeholder="Correo electrónico" autocomplete="email" required>
+          </label>
+
+          <label class="campo">
+            <svg class="campo__icono"><use href="#i-candado"/></svg>
+            <span class="sr-only">Contraseña</span>
+            <input type="password" name="contrasena" placeholder="Contraseña" minlength="6" autocomplete="new-password" required>
+            <svg class="campo__icono campo__icono--derecha"><use href="#i-ojos"/></svg>
+          </label>
+
+          <!-- type="submit": al pulsarlo, app.js valida el formulario antes de avanzar -->
+          <button class="boton boton--principal" type="submit">Registrarme</button>
+        </form>
+
+        <p class="separador"><span>o continuar con</span></p>
+
+        <div class="sociales">
+          <button class="social" type="button" aria-label="Continuar con Apple"><img src="img/apple.png" alt=""></button>
+          <button class="social" type="button" aria-label="Continuar con Google"><img src="img/google.png" alt=""></button>
+        </div>
+
+        <p class="legal">
+          Al registrarte aceptas los <a href="#">Términos de uso</a><br>
+          y la <a href="#">Política de privacidad</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 3 · INICIAR SESIÓN ============ -->
+    <section class="pantalla formulario-pantalla" id="iniciar-sesion" aria-labelledby="titulo-login">
+      <!-- Panel de color: SOLO se ve en el ordenador (en el móvil tiene display: none) -->
+      <aside class="panel-web" aria-hidden="true">
+        <img class="forma panel-web__forma-azul" src="img/forma-azul.svg" alt="">
+        <img class="forma panel-web__forma-amarilla" src="img/forma-amarilla.svg" alt="">
+        <span class="forma panel-web__forma-turquesa"></span>
+        <p class="logo panel-web__logo"><span class="logo__linea">Hobby</span><span class="logo__linea logo__linea--derecha">Match</span></p>
+        <p class="lema panel-web__lema">Comparte aficiones<br>por <span class="lema__grupo"><mark class="lema__madrid">Madrid</mark><svg class="lema__oso"><use href="#i-oso"/></svg></span></p>
+        <p class="panel-web__texto">¡Qué bien verte otra vez! Tu gente y tus planes te están esperando.</p>
+      </aside>
+
+      <img class="forma forma--lila" src="img/forma-lila.svg" alt="">
+      <img class="forma forma--verde" src="img/forma-verde.svg" alt="">
+
+      <header class="cabecera">
+        <a class="cabecera__volver" href="#bienvenida" aria-label="Volver">
+          <svg><use href="#i-volver"/></svg>
+        </a>
+        <p class="cabecera__titulo">Hobby Match</p>
+      </header>
+
+      <div class="contenedor">
+        <h2 class="titulo-manuscrito" id="titulo-login">
+          Iniciar Sesión <img class="rayitas" src="img/rayitas.svg" alt="">
+        </h2>
+
+        <form class="formulario" id="form-login" novalidate>
+          <!-- Si hay un error, app.js añade la clase "campo--error" y un mensaje debajo -->
+          <div class="grupo">
+            <label class="campo">
+              <svg class="campo__icono"><use href="#i-correo"/></svg>
+              <span class="sr-only">Correo electrónico</span>
+              <input type="email" name="correo" placeholder="Correo electrónico" autocomplete="email" required>
+            </label>
+          </div>
+
+          <div class="grupo">
+            <label class="campo">
+              <svg class="campo__icono"><use href="#i-candado"/></svg>
+              <span class="sr-only">Contraseña</span>
+              <input type="password" name="contrasena" placeholder="Contraseña" autocomplete="current-password" required>
+              <svg class="campo__icono campo__icono--derecha"><use href="#i-ojos"/></svg>
+            </label>
+          </div>
+
+          <a class="enlace enlace--derecha" href="#">¿Olvidaste tu contraseña?</a>
+
+          <button class="boton boton--principal" type="submit">Entrar</button>
+        </form>
+
+        <p class="texto-centro">
+          ¿No tienes cuenta? <a class="enlace enlace--fuerte" href="#crear-usuario">Crear usuario</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 4 · ONBOARDING 1: ¿DÓNDE VIVES? ============ -->
+    <section class="pantalla onboarding" id="barrio" aria-labelledby="titulo-barrio">
+      <img class="forma forma--lila forma--pequena" src="img/forma-lila.svg" alt="">
+
+      <header class="cabecera cabecera--izquierda">
+        <a class="cabecera__volver" href="#crear-usuario" aria-label="Volver">
+          <svg><use href="#i-volver"/></svg>
+        </a>
+      </header>
+
+      <div class="contenedor">
+        <div class="progreso" aria-label="Paso 1 de 3">
+          <span class="progreso__barra progreso__barra--activa"></span>
+          <span class="progreso__barra"></span>
+          <span class="progreso__barra"></span>
+          <span class="progreso__texto">Paso 1 de 3</span>
+        </div>
+
+        <h2 class="titulo-manuscrito titulo-manuscrito--mediano" id="titulo-barrio">¿Dónde vives?</h2>
+        <p class="subtitulo">Elige tu barrio y te enseñaremos gente con tus aficiones cerca de ti.</p>
+
+        <label class="campo campo--buscador">
+          <svg class="campo__icono"><use href="#i-buscar"/></svg>
+          <span class="sr-only">Buscar barrio</span>
+          <input type="search" id="buscador-barrio" placeholder="Busca tu barrio" autocomplete="off">
+        </label>
+
+        <!--
+          Cada barrio es un radio button escondido + su <label> con forma de chip.
+          Al ser "radio" con el mismo name, solo se puede elegir uno.
+        -->
+        <fieldset class="chips">
+          <legend class="sr-only">Barrios de Madrid</legend>
+          <input type="radio" name="barrio" id="b-centro" value="Centro"><label for="b-centro" class="chip">Centro</label>
+          <input type="radio" name="barrio" id="b-arganzuela" value="Arganzuela"><label for="b-arganzuela" class="chip">Arganzuela</label>
+          <input type="radio" name="barrio" id="b-retiro" value="Retiro"><label for="b-retiro" class="chip">Retiro</label>
+          <input type="radio" name="barrio" id="b-salamanca" value="Salamanca"><label for="b-salamanca" class="chip">Salamanca</label>
+          <input type="radio" name="barrio" id="b-chamartin" value="Chamartín"><label for="b-chamartin" class="chip">Chamartín</label>
+          <input type="radio" name="barrio" id="b-tetuan" value="Tetuán"><label for="b-tetuan" class="chip">Tetuán</label>
+          <input type="radio" name="barrio" id="b-chamberi" value="Chamberí" checked><label for="b-chamberi" class="chip">Chamberí</label>
+          <input type="radio" name="barrio" id="b-fuencarral" value="Fuencarral"><label for="b-fuencarral" class="chip">Fuencarral</label>
+          <input type="radio" name="barrio" id="b-moncloa" value="Moncloa"><label for="b-moncloa" class="chip">Moncloa</label>
+          <input type="radio" name="barrio" id="b-latina" value="Latina"><label for="b-latina" class="chip">Latina</label>
+          <input type="radio" name="barrio" id="b-carabanchel" value="Carabanchel"><label for="b-carabanchel" class="chip">Carabanchel</label>
+          <input type="radio" name="barrio" id="b-usera" value="Usera"><label for="b-usera" class="chip">Usera</label>
+          <input type="radio" name="barrio" id="b-vallecas" value="Vallecas"><label for="b-vallecas" class="chip">Vallecas</label>
+          <input type="radio" name="barrio" id="b-moratalaz" value="Moratalaz"><label for="b-moratalaz" class="chip">Moratalaz</label>
+          <input type="radio" name="barrio" id="b-ciudad-lineal" value="Ciudad Lineal"><label for="b-ciudad-lineal" class="chip">Ciudad Lineal</label>
+          <input type="radio" name="barrio" id="b-hortaleza" value="Hortaleza"><label for="b-hortaleza" class="chip">Hortaleza</label>
+          <input type="radio" name="barrio" id="b-villaverde" value="Villaverde"><label for="b-villaverde" class="chip">Villaverde</label>
+          <input type="radio" name="barrio" id="b-vicalvaro" value="Vicálvaro"><label for="b-vicalvaro" class="chip">Vicálvaro</label>
+          <input type="radio" name="barrio" id="b-san-blas" value="San Blas"><label for="b-san-blas" class="chip">San Blas</label>
+          <input type="radio" name="barrio" id="b-barajas" value="Barajas"><label for="b-barajas" class="chip">Barajas</label>
+        </fieldset>
+
+        <p class="nota nota--emoticono"><svg class="emoticono" aria-hidden="true"><use href="#e-barrio"/></svg>De momento HobbyMatch solo funciona en Madrid capital.</p>
+      </div>
+
+      <footer class="barra-inferior">
+        <button class="boton boton--principal" type="button" id="guardar-barrio">Continuar</button>
+      </footer>
+    </section>
+
+    <!-- ============ 5 · ONBOARDING 2: ¿QUÉ TE GUSTA? (categorías) ============ -->
+    <section class="pantalla onboarding" id="aficiones" aria-labelledby="titulo-aficiones">
+      <img class="forma forma--lila forma--pequena" src="img/forma-lila.svg" alt="">
+
+      <header class="cabecera cabecera--izquierda">
+        <a class="cabecera__volver" href="#barrio" aria-label="Volver">
+          <svg><use href="#i-volver"/></svg>
+        </a>
+      </header>
+
+      <div class="contenedor">
+        <div class="progreso" aria-label="Paso 2 de 3">
+          <span class="progreso__barra progreso__barra--activa"></span>
+          <span class="progreso__barra progreso__barra--activa"></span>
+          <span class="progreso__barra"></span>
+          <span class="progreso__texto">Paso 2 de 3</span>
+        </div>
+
+        <h2 class="titulo-manuscrito titulo-manuscrito--mediano" id="titulo-aficiones">¿Qué te gusta?</h2>
+        <p class="subtitulo">Elige las categorías que más te interesan. Dentro verás qué aficiones incluye cada una.</p>
+
+        <!--
+          Cada categoría es un checkbox (se pueden elegir varias).
+          El color de cada tarjeta sale de la variable --cat, definida con style="--cat:..."
+          Las etiquetas de dentro son solo informativas.
+        -->
+        <fieldset class="categorias" id="lista-categorias">
+          <legend class="sr-only">Categorías de aficiones</legend>
+
+          <input type="checkbox" name="categoria" id="c-deportes" value="Deportes" checked>
+          <label for="c-deportes" class="categoria" style="--cat-300: var(--deportes-300); --cat-500: var(--deportes-500); --cat-700: var(--deportes-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-deportes"/></svg>Deportes<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Senderismo</span><span>Fútbol</span><span>Baloncesto</span><span>Pádel</span><span>Running</span><span>Gimnasio</span><span>Escalada</span><span>Bolos</span></span>
+          </label>
+
+          <input type="checkbox" name="categoria" id="c-videojuegos" value="Videojuegos">
+          <label for="c-videojuegos" class="categoria" style="--cat-300: var(--videojuegos-300); --cat-500: var(--videojuegos-500); --cat-700: var(--videojuegos-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-videojuegos"/></svg>Videojuegos<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Videojuegos PC</span><span>Videojuegos consola</span><span>Realidad virtual</span><span>Consolas retro</span></span>
+          </label>
+
+          <input type="checkbox" name="categoria" id="c-gastronomia" value="Gastronomía" checked>
+          <label for="c-gastronomia" class="categoria" style="--cat-300: var(--gastronomia-300); --cat-500: var(--gastronomia-500); --cat-700: var(--gastronomia-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-gastronomia"/></svg>Gastronomía<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Repostería</span><span>Catas gastronómicas</span><span>Cocina internacional</span><span>Cocina saludable</span></span>
+          </label>
+
+          <input type="checkbox" name="categoria" id="c-arte" value="Arte">
+          <label for="c-arte" class="categoria" style="--cat-300: var(--arte-300); --cat-500: var(--arte-500); --cat-700: var(--arte-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-arte"/></svg>Arte<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Dibujo</span><span>Pintura</span><span>Fotografía</span><span>Diseño gráfico</span><span>Cerámica</span></span>
+          </label>
+
+          <input type="checkbox" name="categoria" id="c-musica" value="Música" checked>
+          <label for="c-musica" class="categoria" style="--cat-300: var(--musica-300); --cat-500: var(--musica-500); --cat-700: var(--musica-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-musica"/></svg>Música<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Conciertos</span><span>Festivales</span><span>Karaoke</span><span>Tocar instrumentos</span><span>Salsa</span><span>Bachata</span><span>Hip-hop</span><span>Flamenco</span></span>
+          </label>
+
+          <input type="checkbox" name="categoria" id="c-cine" value="Cine">
+          <label for="c-cine" class="categoria" style="--cat-300: var(--cine-300); --cat-500: var(--cine-500); --cat-700: var(--cine-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-cine"/></svg>Cine<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Terror</span><span>Ciencia ficción</span><span>Anime</span><span>Comedia</span></span>
+          </label>
+
+          <input type="checkbox" name="categoria" id="c-juegos" value="Juegos de Mesa">
+          <label for="c-juegos" class="categoria" style="--cat-300: var(--juegos-300); --cat-500: var(--juegos-500); --cat-700: var(--juegos-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-juegos"/></svg>Juegos de Mesa<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Juegos de mesa</span><span>Escape rooms</span><span>Figuras</span><span>Cómics</span></span>
+          </label>
+
+          <input type="checkbox" name="categoria" id="c-viajes" value="Viajes">
+          <label for="c-viajes" class="categoria" style="--cat-300: var(--viajes-300); --cat-500: var(--viajes-500); --cat-700: var(--viajes-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-viajes"/></svg>Viajes<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Viajes</span><span>Acampada</span></span>
+          </label>
+
+          <input type="checkbox" name="categoria" id="c-cultura" value="Cultura">
+          <label for="c-cultura" class="categoria" style="--cat-300: var(--cultura-300); --cat-500: var(--cultura-500); --cat-700: var(--cultura-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-cultura"/></svg>Cultura<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Museos</span><span>Teatro</span><span>Exposiciones</span></span>
+          </label>
+
+          <input type="checkbox" name="categoria" id="c-animales" value="Animales">
+          <label for="c-animales" class="categoria" style="--cat-300: var(--animales-300); --cat-500: var(--animales-500); --cat-700: var(--animales-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-animales"/></svg>Animales<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Perros</span><span>Gatos</span><span>Voluntariado animal</span></span>
+          </label>
+
+          <input type="checkbox" name="categoria" id="c-moda" value="Moda">
+          <label for="c-moda" class="categoria" style="--cat-300: var(--moda-300); --cat-500: var(--moda-500); --cat-700: var(--moda-700);">
+            <span class="categoria__cabecera"><svg class="emoticono categoria__emoticono" aria-hidden="true"><use href="#e-moda"/></svg>Moda<span class="categoria__check"></span></span>
+            <span class="etiquetas"><span>Streetwear</span><span>Moda vintage</span><span>Maquillaje</span><span>Estilismo</span></span>
+          </label>
+        </fieldset>
+      </div>
+
+      <footer class="barra-inferior">
+        <!-- El número de categorías elegidas lo cuenta el propio CSS (contador) -->
+        <p class="contador-categorias">categorías elegidas</p>
+        <button class="boton boton--principal" type="button" id="guardar-categorias">Continuar</button>
+      </footer>
+    </section>
+
+    <!-- ============ 5b · ONBOARDING 3: ELIGE TU COMPAÑERO (mascota) ============ -->
+    <section class="pantalla onboarding" id="mascota" aria-labelledby="titulo-mascota">
+      <img class="forma forma--lila forma--pequena" src="img/forma-lila.svg" alt="">
+
+      <header class="cabecera cabecera--izquierda">
+        <a class="cabecera__volver" href="#aficiones" aria-label="Volver">
+          <svg><use href="#i-volver"/></svg>
+        </a>
+      </header>
+
+      <div class="contenedor">
+        <div class="progreso" aria-label="Paso 3 de 3">
+          <span class="progreso__barra progreso__barra--activa"></span>
+          <span class="progreso__barra progreso__barra--activa"></span>
+          <span class="progreso__barra progreso__barra--activa"></span>
+          <span class="progreso__texto">Paso 3 de 3</span>
+        </div>
+
+        <h2 class="titulo-manuscrito titulo-manuscrito--mediano" id="titulo-mascota">Elige tu compañero</h2>
+        <p class="subtitulo">Crecerá contigo cada vez que quedes con alguien. Podrás cambiarlo cuando quieras en Editar perfil.</p>
+
+        <!-- Las 4 opciones (radio + label con el dibujo) las crea js/mascotas.js -->
+        <fieldset class="opciones-mascota" id="opciones-mascota">
+          <legend class="sr-only">Mascotas</legend>
+        </fieldset>
+      </div>
+
+      <footer class="barra-inferior">
+        <button class="boton boton--principal" type="button" id="guardar-mascota">Quedarme con el Oso</button>
+      </footer>
+    </section>
+
+    <!-- ============ 6 · INICIO (dashboard) ============ -->
+    <section class="pantalla inicio" id="inicio" aria-labelledby="titulo-inicio">
+      <!-- Cabecera clara (propuesta B "Cartelera" del Figma): avatar, saludo y barrio -->
+      <header class="inicio__cabecera">
+        <span class="forma inicio__forma" aria-hidden="true"></span>
+        <div class="contenedor">
+          <div class="inicio__saludo">
+            <a class="avatar avatar--yo" href="#perfil" aria-label="Mi perfil" id="inicio-avatar">?</a>
+            <div>
+              <h2 class="titulo-manuscrito" id="titulo-inicio">¡Hola!</h2>
+              <p class="inicio__ubicacion" id="inicio-ubicacion">Madrid</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="contenedor inicio__cuerpo">
+        <!-- CARTELERA: planes de tus aficiones en los próximos 5 días (planes.js) -->
+        <section class="cartelera" aria-labelledby="titulo-cartelera">
+          <h3 class="titulo-manuscrito cartelera__titulo" id="titulo-cartelera">Esta semana en Madrid</h3>
+          <p class="cartelera__subtitulo">Planes de tus aficiones en los próximos 5 días</p>
+          <ul class="carteles" id="carteles"></ul>
+        </section>
+
+        <!-- TUS PLANES: a los que ya te has apuntado -->
+        <section class="tus-planes-bloque" aria-labelledby="titulo-tus-planes">
+          <div class="seccion-titulo">
+            <h3 id="titulo-tus-planes"><svg class="emoticono" aria-hidden="true"><use href="#e-plan"/></svg>Tus planes</h3>
+          </div>
+          <ul class="tus-planes" id="tus-planes"></ul>
+          <p class="nota" id="sin-planes" hidden>Aún no te has apuntado a ningún plan. ¡Elige uno de la cartelera!</p>
+
+          <ul class="resumen resumen--claro">
+            <li><a class="resumen__dato" href="#mis-aficiones"><strong id="dato-aficiones">0</strong>Aficiones</a></li>
+            <li><a class="resumen__dato" href="#amigos"><strong id="dato-amigos">0</strong>Amigos</a></li>
+            <li><a class="resumen__dato" href="#amigos"><strong id="dato-solicitudes">0</strong><span id="texto-solicitudes">Solicitudes</span></a></li>
+          </ul>
+        </section>
+
+        <section aria-labelledby="titulo-afines">
+          <div class="seccion-titulo">
+            <h3 id="titulo-afines">Gente afín cerca de ti</h3>
+            <a class="enlace" href="#explorar">Ver todo</a>
+          </div>
+
+          <!-- Las tarjetas las pinta social.js con la gente más afín a tus preferencias -->
+          <ul class="carrusel" id="carrusel-afines"></ul>
+        </section>
+
+        <section aria-labelledby="titulo-tendencias">
+          <div class="seccion-titulo">
+            <h3 id="titulo-tendencias"><svg class="emoticono" aria-hidden="true"><use href="#e-tendencia"/></svg>Tendencias en Madrid</h3>
+          </div>
+
+          <!-- Calculadas contando las aficiones de la gente de Madrid (social.js) -->
+          <ol class="tendencias" id="tendencias-inicio"></ol>
+        </section>
+      </div>
+
+      <!-- Barra de navegación inferior (se repite en cada pantalla principal) -->
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a class="navegacion__item navegacion__item--activo" href="#inicio" aria-current="page"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item" href="#explorar"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item" href="#mis-aficiones"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item" href="#amigos"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item" href="#perfil"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+
+    <!-- ============ 7 · MIS AFICIONES (listado) ============ -->
+    <section class="pantalla mis-aficiones" id="mis-aficiones" aria-labelledby="titulo-mis-aficiones">
+      <div class="contenedor">
+        <header class="lista-cabecera">
+          <div>
+            <h2 class="titulo-manuscrito titulo-manuscrito--mediano" id="titulo-mis-aficiones">Mis aficiones</h2>
+            <p class="lista-cabecera__contador" id="contador-aficiones">0 aficiones</p>
+          </div>
+          <a class="boton-redondo" href="#formulario-aficion" data-nueva-aficion aria-label="Añadir afición">+</a>
+        </header>
+
+        <!-- Buscador y filtros: se ocultan si todavía no hay ninguna afición -->
+        <div class="herramientas" id="herramientas">
+          <label class="campo campo--buscador">
+            <svg class="campo__icono"><use href="#i-buscar"/></svg>
+            <span class="sr-only">Buscar en tus aficiones</span>
+            <input type="search" id="buscador" placeholder="Busca en tus aficiones" autocomplete="off">
+          </label>
+
+          <!-- Los chips de filtro los crea app.js a partir de CATEGORIAS (datos.js) -->
+          <fieldset class="filtros" id="filtros">
+            <legend class="sr-only">Filtrar por categoría</legend>
+          </fieldset>
+
+          <!-- Aparece solo si hay búsqueda o filtro activos: vuelve a enseñarlo todo (reset) -->
+          <button class="boton-texto boton-texto--pequeno" type="button" id="quitar-filtros" hidden>✕ Quitar filtros</button>
+        </div>
+
+        <!-- Aquí app.js pinta una tarjeta por cada afición -->
+        <ul class="lista-aficiones" id="lista-aficiones"></ul>
+
+        <!-- ESTADO VACÍO: no hay ninguna afición guardada -->
+        <div class="estado" id="estado-vacio" hidden>
+          <svg class="estado__oso" aria-hidden="true"><use href="#i-oso"/></svg>
+          <h3 class="estado__titulo">¡Aún no tienes aficiones!</h3>
+          <p class="estado__texto">Añade la primera y te enseñaremos gente de Madrid que la comparte.</p>
+          <a class="boton boton--principal boton--estrecho" href="#formulario-aficion" data-nueva-aficion>+ Añadir afición</a>
+        </div>
+
+        <!-- ESTADO SIN RESULTADOS: hay aficiones, pero ninguna coincide con la búsqueda/filtro -->
+        <div class="estado" id="estado-sin-resultados" hidden>
+          <svg class="estado__oso" aria-hidden="true"><use href="#i-oso"/></svg>
+          <h3 class="estado__titulo">Sin coincidencias</h3>
+          <p class="estado__texto" id="texto-sin-resultados">No hay aficiones que coincidan.</p>
+          <button class="boton boton--secundario boton--estrecho" type="button" id="limpiar-filtros">Limpiar filtros</button>
+        </div>
+
+        <!-- ESTADO DE ERROR: los datos guardados no se pueden leer (están dañados o el navegador bloquea localStorage) -->
+        <div class="estado estado--error" id="estado-error" hidden>
+          <svg class="estado__oso" aria-hidden="true"><use href="#i-oso"/></svg>
+          <h3 class="estado__titulo">Algo ha fallado</h3>
+          <p class="estado__texto">No hemos podido leer tus aficiones guardadas en este navegador.</p>
+          <button class="boton boton--peligro boton--estrecho" type="button" id="reiniciar-datos">Empezar de cero</button>
+        </div>
+      </div>
+
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a class="navegacion__item" href="#inicio"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item" href="#explorar"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item navegacion__item--activo" href="#mis-aficiones" aria-current="page"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item" href="#amigos"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item" href="#perfil"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+    <!-- ============ 8 · FORMULARIO: NUEVA / EDITAR AFICIÓN ============ -->
+    <section class="pantalla formulario-aficion" id="formulario-aficion" aria-labelledby="titulo-formulario">
+      <header class="cabecera cabecera--izquierda">
+        <a class="cabecera__volver" href="#mis-aficiones" id="volver-formulario" aria-label="Volver">
+          <svg><use href="#i-volver"/></svg>
+        </a>
+      </header>
+
+      <div class="contenedor">
+        <!-- El título cambia a "Editar afición" en modo edición -->
+        <h2 class="titulo-manuscrito titulo-manuscrito--mediano" id="titulo-formulario">Nueva afición</h2>
+
+        <form class="formulario formulario--aficion" id="form-aficion" novalidate>
+          <div class="grupo">
+            <label class="etiqueta" for="aficion-nombre">Afición *</label>
+            <div class="campo">
+              <input type="text" id="aficion-nombre" name="nombre" placeholder="Ej. Senderismo" maxlength="40" list="sugerencias-aficiones" autocomplete="off">
+            </div>
+            <!-- Sugerencias mientras escribes (las rellena app.js) -->
+            <datalist id="sugerencias-aficiones"></datalist>
+          </div>
+
+          <div class="grupo">
+            <label class="etiqueta" for="aficion-categoria">Categoría *</label>
+            <div class="campo campo--select">
+              <select id="aficion-categoria" name="categoria">
+                <option value="">Elige una categoría</option>
+              </select>
+            </div>
+          </div>
+
+          <fieldset class="grupo">
+            <legend class="etiqueta">Nivel</legend>
+            <div class="segmentado" id="opciones-nivel"></div>
+          </fieldset>
+
+          <fieldset class="grupo">
+            <legend class="etiqueta">Frecuencia</legend>
+            <div class="chips chips--formulario" id="opciones-frecuencia"></div>
+          </fieldset>
+
+          <div class="grupo">
+            <label class="etiqueta" for="aficion-descripcion">Descripción (opcional)</label>
+            <textarea class="area-texto" id="aficion-descripcion" name="descripcion" rows="4" maxlength="200" placeholder="Cuéntale a la gente qué te gusta hacer…"></textarea>
+          </div>
+
+          <footer class="barra-inferior">
+            <button class="boton boton--principal" type="submit" id="boton-guardar">Guardar afición</button>
+            <a class="boton boton--secundario" href="#mis-aficiones" id="cancelar-formulario">Cancelar</a>
+          </footer>
+        </form>
+      </div>
+
+      <!-- Menú lateral: solo se ve en ordenador (en el móvil esta pantalla tiene su propia barra de botones) -->
+      <nav class="navegacion navegacion--escritorio" aria-label="Navegación principal">
+        <a class="navegacion__item" href="#inicio"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item" href="#explorar"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item navegacion__item--activo" href="#mis-aficiones" aria-current="page"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item" href="#amigos"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item" href="#perfil"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+    <!-- ============ 9 · DETALLE DE AFICIÓN ============ -->
+    <section class="pantalla detalle" id="detalle" aria-labelledby="detalle-nombre">
+      <!-- El color de la cabecera depende de la categoría (lo pone app.js) -->
+      <header class="detalle__cabecera" id="detalle-cabecera">
+        <div class="contenedor">
+          <a class="cabecera__volver cabecera__volver--estatico" href="#mis-aficiones" aria-label="Volver">
+            <svg><use href="#i-volver"/></svg>
+          </a>
+          <span class="etiqueta-categoria" id="detalle-categoria">Categoría</span>
+          <h2 class="detalle__nombre" id="detalle-nombre">Afición</h2>
+        </div>
+      </header>
+
+      <div class="contenedor detalle__cuerpo">
+        <dl class="datos">
+          <div class="datos__item"><dt>Nivel</dt><dd id="detalle-nivel">—</dd></div>
+          <div class="datos__item"><dt>Frecuencia</dt><dd id="detalle-frecuencia">—</dd></div>
+          <div class="datos__item"><dt>Desde</dt><dd id="detalle-fecha">—</dd></div>
+        </dl>
+
+        <article class="tarjeta">
+          <h3 class="tarjeta__titulo">Descripción</h3>
+          <p class="tarjeta__texto" id="detalle-descripcion">Sin descripción.</p>
+        </article>
+
+        <p class="afines" id="detalle-afines">0 personas en Madrid comparten esta categoría</p>
+      </div>
+
+      <footer class="barra-inferior">
+        <button class="boton boton--secundario" type="button" id="editar-aficion">Editar afición</button>
+        <button class="boton-texto boton-texto--peligro" type="button" id="eliminar-aficion">Eliminar afición</button>
+      </footer>
+
+      <!-- Menú lateral: solo se ve en ordenador (en el móvil esta pantalla tiene su propia barra de botones) -->
+      <nav class="navegacion navegacion--escritorio" aria-label="Navegación principal">
+        <a class="navegacion__item" href="#inicio"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item" href="#explorar"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item navegacion__item--activo" href="#mis-aficiones" aria-current="page"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item" href="#amigos"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item" href="#perfil"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+    <!-- ============ 10 · EXPLORAR (buscar personas + tendencias) ============ -->
+    <section class="pantalla explorar" id="explorar" aria-labelledby="titulo-explorar">
+      <div class="contenedor">
+        <header class="lista-cabecera">
+          <div>
+            <h2 class="titulo-manuscrito titulo-manuscrito--mediano" id="titulo-explorar">Explorar</h2>
+            <p class="lista-cabecera__contador" id="contador-personas">Gente de Madrid</p>
+          </div>
+        </header>
+
+        <label class="campo campo--buscador">
+          <svg class="campo__icono"><use href="#i-buscar"/></svg>
+          <span class="sr-only">Buscar personas</span>
+          <input type="search" id="buscador-personas" placeholder="Busca personas, barrios o aficiones" autocomplete="off">
+        </label>
+
+        <!-- Chips de categoría (los crea social.js) -->
+        <fieldset class="filtros" id="filtros-personas">
+          <legend class="sr-only">Filtrar personas por categoría</legend>
+        </fieldset>
+
+        <div class="explorar__opciones">
+          <!-- Interruptor: un checkbox con aspecto de botón deslizante -->
+          <label class="interruptor">
+            <input type="checkbox" id="solo-mi-barrio">
+            <span class="interruptor__pista" aria-hidden="true"></span>
+            <span id="texto-solo-barrio">Solo mi barrio</span>
+          </label>
+          <button class="boton-texto boton-texto--pequeno" type="button" id="quitar-filtros-personas" hidden>✕ Quitar filtros</button>
+        </div>
+
+        <!-- TENDENCIAS: solo se ven si no estás buscando nada -->
+        <section class="bloque" id="bloque-tendencias" aria-labelledby="titulo-tendencias-explorar">
+          <h3 class="bloque__titulo" id="titulo-tendencias-explorar"><svg class="emoticono" aria-hidden="true"><use href="#e-tendencia"/></svg>Tendencias en Madrid</h3>
+          <ol class="tendencias" id="tendencias-explorar"></ol>
+        </section>
+
+        <!-- RESULTADO DE BÚSQUEDA -->
+        <section class="bloque bloque--resultados" aria-labelledby="titulo-resultados">
+          <h3 class="bloque__titulo" id="titulo-resultados">Personas afines</h3>
+          <ul class="rejilla-personas" id="resultados-personas"></ul>
+
+          <div class="estado" id="estado-sin-personas" hidden>
+            <svg class="estado__oso" aria-hidden="true"><use href="#i-oso"/></svg>
+            <h3 class="estado__titulo">Nadie por aquí</h3>
+            <p class="estado__texto" id="texto-sin-personas">No hay personas que coincidan.</p>
+            <button class="boton boton--secundario boton--estrecho" type="button" id="limpiar-filtros-personas">Limpiar filtros</button>
+          </div>
+        </section>
+      </div>
+
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a class="navegacion__item" href="#inicio"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item navegacion__item--activo" href="#explorar" aria-current="page"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item" href="#mis-aficiones"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item" href="#amigos"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item" href="#perfil"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+    <!-- ============ 11 · PERFIL DE OTRA PERSONA ============ -->
+    <section class="pantalla ficha" id="persona" aria-labelledby="persona-nombre">
+      <header class="ficha__cabecera" id="persona-cabecera">
+        <div class="contenedor">
+          <a class="cabecera__volver cabecera__volver--estatico" href="#explorar" data-atras aria-label="Volver">
+            <svg><use href="#i-volver"/></svg>
+          </a>
+          <span class="avatar avatar--grande" id="persona-avatar">?</span>
+          <h2 class="ficha__nombre" id="persona-nombre">Persona</h2>
+          <p class="ficha__datos" id="persona-datos">Madrid</p>
+          <p class="ficha__afinidad" id="persona-afinidad"></p>
+          <!-- Su mascota y su nivel (js/mascotas.js) -->
+          <p class="chip-mascota" id="persona-mascota"></p>
+        </div>
+      </header>
+
+      <div class="contenedor ficha__cuerpo">
+        <article class="tarjeta">
+          <h3 class="tarjeta__titulo">Sobre mí</h3>
+          <p class="tarjeta__texto" id="persona-descripcion"></p>
+        </article>
+
+        <section aria-labelledby="titulo-aficiones-persona">
+          <h3 class="bloque__titulo" id="titulo-aficiones-persona">Sus aficiones</h3>
+          <!-- Cada afición lleva el emoticono de su categoría; las afines a ti salen resaltadas -->
+          <ul class="lista-etiquetas" id="persona-aficiones"></ul>
+        </section>
+      </div>
+
+      <footer class="barra-inferior">
+        <!-- El texto y la acción de este botón cambian según la relación (social.js) -->
+        <button class="boton boton--principal" type="button" id="boton-amistad">Enviar solicitud de amistad</button>
+        <button class="boton boton--secundario" type="button" id="guardar-en-lista">Guardar en una lista</button>
+      </footer>
+
+      <!-- Menú lateral: solo se ve en ordenador (en el móvil esta pantalla tiene su propia barra de botones) -->
+      <nav class="navegacion navegacion--escritorio" aria-label="Navegación principal">
+        <a class="navegacion__item" href="#inicio"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item navegacion__item--activo" href="#explorar" aria-current="page"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item" href="#mis-aficiones"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item" href="#amigos"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item" href="#perfil"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+    <!-- ============ 12 · AMIGOS (solicitudes y amistades) ============ -->
+    <section class="pantalla amigos" id="amigos" aria-labelledby="titulo-amigos">
+      <div class="contenedor">
+        <header class="lista-cabecera">
+          <div>
+            <h2 class="titulo-manuscrito titulo-manuscrito--mediano" id="titulo-amigos">Amigos</h2>
+            <p class="lista-cabecera__contador" id="contador-amigos">0 amigos</p>
+          </div>
+          <a class="boton-redondo" href="#explorar" aria-label="Buscar gente">
+            <svg class="boton-redondo__icono"><use href="#i-buscar"/></svg>
+          </a>
+        </header>
+
+        <section class="bloque" id="bloque-recibidas" aria-labelledby="titulo-recibidas">
+          <h3 class="bloque__titulo" id="titulo-recibidas"><svg class="emoticono" aria-hidden="true"><use href="#e-solicitud"/></svg>Solicitudes recibidas</h3>
+          <ul class="lista-personas" id="lista-recibidas"></ul>
+        </section>
+
+        <section class="bloque" aria-labelledby="titulo-tus-amigos">
+          <h3 class="bloque__titulo" id="titulo-tus-amigos"><svg class="emoticono" aria-hidden="true"><use href="#e-amigos"/></svg>Tus amigos</h3>
+          <ul class="lista-personas" id="lista-amigos"></ul>
+          <div class="estado" id="estado-sin-amigos" hidden>
+            <svg class="estado__oso" aria-hidden="true"><use href="#i-oso"/></svg>
+            <h3 class="estado__titulo">Aún no tienes amigos</h3>
+            <p class="estado__texto">Busca gente con tus aficiones y envíales una solicitud.</p>
+            <a class="boton boton--principal boton--estrecho" href="#explorar">Explorar gente</a>
+          </div>
+        </section>
+
+        <section class="bloque" id="bloque-enviadas" aria-labelledby="titulo-enviadas">
+          <h3 class="bloque__titulo" id="titulo-enviadas"><svg class="emoticono" aria-hidden="true"><use href="#e-solicitud"/></svg>Solicitudes enviadas</h3>
+          <ul class="lista-personas" id="lista-enviadas"></ul>
+        </section>
+      </div>
+
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a class="navegacion__item" href="#inicio"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item" href="#explorar"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item" href="#mis-aficiones"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item navegacion__item--activo" href="#amigos" aria-current="page"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item" href="#perfil"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+    <!-- ============ 13 · MI PERFIL ============ -->
+    <section class="pantalla perfil" id="perfil" aria-labelledby="perfil-nombre">
+      <header class="ficha__cabecera ficha__cabecera--oscura">
+        <img class="forma forma--azul forma--cabecera" src="img/forma-azul.svg" alt="">
+        <div class="contenedor">
+          <span class="avatar avatar--grande avatar--yo" id="perfil-foto">?</span>
+          <h2 class="ficha__nombre" id="perfil-nombre">Tu nombre</h2>
+          <p class="ficha__datos" id="perfil-barrio">Madrid</p>
+          <p class="ficha__descripcion" id="perfil-descripcion"></p>
+          <a class="boton boton--amarillo boton--estrecho" href="#editar-perfil">Editar perfil</a>
+        </div>
+      </header>
+
+      <div class="contenedor ficha__cuerpo">
+        <!-- MI MASCOTA: crece con las quedadas (planes de la Cartelera a los que te apuntas) -->
+        <section class="tarjeta-mascota" aria-labelledby="mascota-nombre">
+          <div class="tarjeta-mascota__principal">
+            <div id="mascota-dibujo"></div>
+            <div class="tarjeta-mascota__datos">
+              <p class="tarjeta-mascota__nivel" id="mascota-nivel">Tu oso · nivel 1 de 5</p>
+              <h3 class="tarjeta-mascota__nombre" id="mascota-nombre">Oso dormilón</h3>
+              <progress class="tarjeta-mascota__barra" id="mascota-progreso" max="1" value="0" aria-label="Progreso hasta el siguiente nivel"></progress>
+              <p class="tarjeta-mascota__texto" id="mascota-texto"></p>
+            </div>
+          </div>
+          <ul class="mascota-niveles" id="mascota-niveles" aria-label="Los 5 niveles"></ul>
+        </section>
+
+        <ul class="resumen resumen--claro">
+          <li><a class="resumen__dato" href="#mis-aficiones"><strong id="perfil-dato-aficiones">0</strong>Aficiones</a></li>
+          <li><a class="resumen__dato" href="#amigos"><strong id="perfil-dato-amigos">0</strong>Amigos</a></li>
+          <li><span class="resumen__dato"><strong id="perfil-dato-listas">0</strong>Listas</span></li>
+        </ul>
+
+        <section class="bloque" aria-labelledby="titulo-preferencias">
+          <div class="seccion-titulo">
+            <h3 class="bloque__titulo" id="titulo-preferencias">Preferencias</h3>
+            <a class="enlace" href="#editar-perfil">Editar</a>
+          </div>
+          <ul class="lista-etiquetas" id="perfil-preferencias"></ul>
+          <p class="nota" id="perfil-alcance"></p>
+        </section>
+
+        <section class="bloque" id="perfil-listas" aria-labelledby="titulo-listas">
+          <div class="seccion-titulo">
+            <h3 class="bloque__titulo" id="titulo-listas">Mis listas</h3>
+            <a class="enlace enlace--fuerte" href="#formulario-lista" data-nueva-lista>+ Nueva lista</a>
+          </div>
+          <ul class="rejilla-listas" id="rejilla-listas"></ul>
+          <div class="estado estado--pequeno" id="estado-sin-listas" hidden>
+            <p class="estado__texto">Crea listas para guardar gente, por ejemplo "Pádel los domingos".</p>
+            <a class="boton boton--secundario boton--estrecho" href="#formulario-lista" data-nueva-lista>+ Crear mi primera lista</a>
+          </div>
+        </section>
+
+        <section class="bloque bloque--cuenta" aria-label="Cuenta">
+          <button class="boton-texto" type="button" id="cerrar-sesion">Cerrar sesión</button>
+          <button class="boton-texto boton-texto--peligro" type="button" id="eliminar-cuenta">Eliminar mi cuenta</button>
+        </section>
+      </div>
+
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a class="navegacion__item" href="#inicio"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item" href="#explorar"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item" href="#mis-aficiones"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item" href="#amigos"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item navegacion__item--activo" href="#perfil" aria-current="page"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+    <!-- ============ 14 · EDITAR PERFIL (foto, nombre, descripción, barrio y preferencias) ============ -->
+    <section class="pantalla formulario-aficion" id="editar-perfil" aria-labelledby="titulo-editar-perfil">
+      <header class="cabecera cabecera--izquierda">
+        <a class="cabecera__volver" href="#perfil" aria-label="Volver">
+          <svg><use href="#i-volver"/></svg>
+        </a>
+      </header>
+
+      <div class="contenedor">
+        <h2 class="titulo-manuscrito titulo-manuscrito--mediano" id="titulo-editar-perfil">Editar perfil</h2>
+
+        <form class="formulario formulario--aficion" id="form-perfil" novalidate>
+          <!-- FOTO: el input de archivo está escondido y lo abre el botón "Cambiar foto" (es su label) -->
+          <div class="foto-editor">
+            <span class="avatar avatar--grande avatar--yo" id="editar-foto-vista">?</span>
+            <div class="foto-editor__botones">
+              <label class="boton boton--secundario boton--estrecho" for="input-foto">Cambiar foto</label>
+              <input class="sr-only" type="file" id="input-foto" accept="image/*">
+              <button class="boton-texto boton-texto--peligro boton-texto--pequeno" type="button" id="quitar-foto">Quitar foto</button>
+            </div>
+          </div>
+
+          <div class="grupo">
+            <label class="etiqueta" for="perfil-input-nombre">Nombre *</label>
+            <div class="campo">
+              <input type="text" id="perfil-input-nombre" name="nombre" maxlength="30" autocomplete="given-name">
+            </div>
+          </div>
+
+          <div class="grupo">
+            <label class="etiqueta" for="perfil-input-descripcion">Descripción</label>
+            <textarea class="area-texto" id="perfil-input-descripcion" name="descripcion" rows="3" maxlength="160" placeholder="Cuéntale a la gente quién eres…"></textarea>
+          </div>
+
+          <div class="grupo">
+            <label class="etiqueta" for="perfil-input-barrio">Barrio</label>
+            <div class="campo campo--select">
+              <select id="perfil-input-barrio" name="barrio"></select>
+            </div>
+          </div>
+
+          <fieldset class="grupo">
+            <legend class="etiqueta">Tu mascota</legend>
+            <div class="opciones-mascota opciones-mascota--pequenas" id="editar-mascota"></div>
+          </fieldset>
+
+          <fieldset class="grupo">
+            <legend class="etiqueta">Categorías que te interesan</legend>
+            <div class="chips chips--formulario" id="editar-preferencias"></div>
+          </fieldset>
+
+          <fieldset class="grupo">
+            <legend class="etiqueta">Enseñarme gente de</legend>
+            <div class="segmentado segmentado--dos">
+              <input type="radio" name="alcance" id="alcance-madrid" value="madrid"><label for="alcance-madrid">Toda Madrid</label>
+              <input type="radio" name="alcance" id="alcance-barrio" value="barrio"><label for="alcance-barrio">Mi barrio</label>
+            </div>
+          </fieldset>
+
+          <button class="boton-texto boton-texto--peligro boton-texto--pequeno" type="button" id="borrar-preferencias">Borrar mis preferencias</button>
+
+          <footer class="barra-inferior">
+            <button class="boton boton--principal" type="submit">Guardar cambios</button>
+            <a class="boton boton--secundario" href="#perfil">Cancelar</a>
+          </footer>
+        </form>
+      </div>
+
+      <!-- Menú lateral: solo se ve en ordenador (en el móvil esta pantalla tiene su propia barra de botones) -->
+      <nav class="navegacion navegacion--escritorio" aria-label="Navegación principal">
+        <a class="navegacion__item" href="#inicio"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item" href="#explorar"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item" href="#mis-aficiones"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item" href="#amigos"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item navegacion__item--activo" href="#perfil" aria-current="page"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+    <!-- ============ 15 · DETALLE DE UNA LISTA ============ -->
+    <section class="pantalla detalle" id="lista" aria-labelledby="lista-nombre">
+      <header class="detalle__cabecera detalle__cabecera--lista">
+        <div class="contenedor">
+          <a class="cabecera__volver cabecera__volver--estatico" href="#perfil" aria-label="Volver">
+            <svg><use href="#i-volver"/></svg>
+          </a>
+          <span class="etiqueta-categoria" id="lista-contador">0 personas</span>
+          <h2 class="detalle__nombre" id="lista-nombre">Lista</h2>
+        </div>
+      </header>
+
+      <div class="contenedor detalle__cuerpo">
+        <ul class="lista-personas" id="lista-personas"></ul>
+        <div class="estado estado--pequeno" id="estado-lista-vacia" hidden>
+          <svg class="estado__oso" aria-hidden="true"><use href="#i-oso"/></svg>
+          <p class="estado__texto">Esta lista está vacía. Abre el perfil de alguien y pulsa "Guardar en una lista".</p>
+          <a class="boton boton--principal boton--estrecho" href="#explorar">Explorar gente</a>
+        </div>
+      </div>
+
+      <footer class="barra-inferior">
+        <button class="boton boton--secundario" type="button" id="editar-lista">Editar lista</button>
+        <button class="boton-texto boton-texto--peligro" type="button" id="eliminar-lista">Eliminar lista</button>
+      </footer>
+
+      <!-- Menú lateral: solo se ve en ordenador (en el móvil esta pantalla tiene su propia barra de botones) -->
+      <nav class="navegacion navegacion--escritorio" aria-label="Navegación principal">
+        <a class="navegacion__item" href="#inicio"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item" href="#explorar"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item" href="#mis-aficiones"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item" href="#amigos"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item navegacion__item--activo" href="#perfil" aria-current="page"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+    <!-- ============ 16 · FORMULARIO: NUEVA / EDITAR LISTA ============ -->
+    <section class="pantalla formulario-aficion" id="formulario-lista" aria-labelledby="titulo-form-lista">
+      <header class="cabecera cabecera--izquierda">
+        <a class="cabecera__volver" href="#perfil" id="volver-form-lista" aria-label="Volver">
+          <svg><use href="#i-volver"/></svg>
+        </a>
+      </header>
+
+      <div class="contenedor">
+        <h2 class="titulo-manuscrito titulo-manuscrito--mediano" id="titulo-form-lista">Nueva lista</h2>
+
+        <form class="formulario formulario--aficion" id="form-lista" novalidate>
+          <div class="grupo">
+            <label class="etiqueta" for="lista-input-nombre">Nombre de la lista *</label>
+            <div class="campo">
+              <input type="text" id="lista-input-nombre" name="nombre" maxlength="30" placeholder="Ej. Pádel los domingos" autocomplete="off">
+            </div>
+          </div>
+
+          <fieldset class="grupo">
+            <legend class="etiqueta">Icono</legend>
+            <div class="chips chips--formulario chips--emoji" id="opciones-emoji"></div>
+          </fieldset>
+
+          <footer class="barra-inferior">
+            <button class="boton boton--principal" type="submit" id="boton-guardar-lista">Crear lista</button>
+            <a class="boton boton--secundario" href="#perfil" id="cancelar-form-lista">Cancelar</a>
+          </footer>
+        </form>
+      </div>
+
+      <!-- Menú lateral: solo se ve en ordenador (en el móvil esta pantalla tiene su propia barra de botones) -->
+      <nav class="navegacion navegacion--escritorio" aria-label="Navegación principal">
+        <a class="navegacion__item" href="#inicio"><svg><use href="#i-inicio"/></svg>Inicio</a>
+        <a class="navegacion__item" href="#explorar"><svg><use href="#i-explorar"/></svg>Explorar</a>
+        <a class="navegacion__item" href="#mis-aficiones"><svg><use href="#i-corazon"/></svg>Aficiones</a>
+        <a class="navegacion__item" href="#amigos"><svg><use href="#i-amigos"/></svg>Amigos</a>
+        <a class="navegacion__item navegacion__item--activo" href="#perfil" aria-current="page"><svg><use href="#i-perfil"/></svg>Perfil</a>
+      </nav>
+    </section>
+
+  </main>
+
+  <!-- Diálogo de confirmación (etiqueta nativa <dialog>). Se reutiliza para todo lo que se borra: el texto lo pone app.js -->
+  <dialog class="dialogo" id="dialogo-eliminar" aria-labelledby="dialogo-titulo">
+    <svg class="emoticono dialogo__icono" aria-hidden="true"><use href="#e-borrar"/></svg>
+    <h2 class="titulo-manuscrito titulo-manuscrito--dialogo" id="dialogo-titulo">¿Eliminar afición?</h2>
+    <p class="dialogo__texto" id="dialogo-texto">Se borrará de tus aficiones y dejarás de ver gente afín por ella. No se puede deshacer.</p>
+    <button class="boton boton--peligro" type="button" id="confirmar-eliminar">Sí, eliminar</button>
+    <button class="boton boton--secundario" type="button" id="cancelar-eliminar">Cancelar</button>
+  </dialog>
+
+  <!-- Diálogo de celebración cuando la mascota sube de nivel (js/mascotas.js) -->
+  <dialog class="dialogo dialogo--mascota" id="dialogo-mascota" aria-labelledby="dialogo-mascota-titulo">
+    <p class="dialogo-mascota__nivel" id="dialogo-mascota-nivel">¡Nivel 2!</p>
+    <div id="dialogo-mascota-dibujo"></div>
+    <h2 class="titulo-manuscrito titulo-manuscrito--dialogo" id="dialogo-mascota-titulo">¡Tu mascota ha crecido!</h2>
+    <p class="dialogo__texto" id="dialogo-mascota-texto"></p>
+    <button class="boton boton--principal" type="button" id="cerrar-dialogo-mascota">¡Qué guapo!</button>
+  </dialog>
+
+  <!-- Diálogo para guardar a una persona en una o varias listas -->
+  <dialog class="dialogo dialogo--listas" id="dialogo-listas" aria-labelledby="dialogo-listas-titulo">
+    <h2 class="titulo-manuscrito titulo-manuscrito--dialogo" id="dialogo-listas-titulo">Guardar en una lista</h2>
+    <p class="dialogo__texto" id="dialogo-listas-texto">Marca las listas donde quieres guardar a esta persona.</p>
+    <fieldset class="opciones-listas" id="opciones-listas">
+      <legend class="sr-only">Tus listas</legend>
+    </fieldset>
+    <form class="nueva-lista-rapida" id="form-lista-rapida" novalidate>
+      <div class="campo">
+        <label class="sr-only" for="nombre-lista-rapida">Nombre de la nueva lista</label>
+        <input type="text" id="nombre-lista-rapida" name="nombre" maxlength="30" placeholder="Nueva lista…" autocomplete="off">
+      </div>
+      <button class="boton-redondo boton-redondo--pequeno" type="submit" aria-label="Crear lista">+</button>
+    </form>
+    <p class="mensaje-error" id="error-lista-rapida" hidden></p>
+    <button class="boton boton--principal" type="button" id="cerrar-dialogo-listas">Listo</button>
+  </dialog>
+
+  <!-- Aviso de confirmación (toast). role="status" hace que los lectores de pantalla lo lean -->
+  <div class="aviso" id="aviso" role="status" aria-live="polite" hidden>
+    <span class="aviso__icono" aria-hidden="true">✓</span>
+    <span id="aviso-texto">Hecho</span>
+  </div>
+
+  <!-- JavaScript: primero los datos fijos y después la lógica -->
+  <!-- Solo actúa dentro de movil.html: esconde la barra de scroll y permite arrastrar con el ratón -->
+  <script src="js/arrastre.js"></script>
+  <script src="js/datos.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/social.js" defer></script>
+  <script src="js/perfil.js" defer></script>
+  <script src="js/listas.js" defer></script>
+  <script src="js/planes.js" defer></script>
+  <script src="js/mascotas.js" defer></script>
+</body>
+</html>
